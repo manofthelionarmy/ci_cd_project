@@ -18,12 +18,12 @@ mocha.describe('-- Testing Mongo ---', () => {
                 done();
             }); 
 
-            mongo.connect(config.dbSettings.test, mediator); 
+            mongo.connect(config.dbSettings.test.url, mediator); 
 
             mediator.emit('boot.ready');
         });
 
-        it('should throw an error when MongoDB experiences an error', () => {
+        it('should throw an error if a bad url is passed', () => {
             const mediator = new EventEmitter();
 
             chai.assert.throws(() => {
@@ -31,6 +31,40 @@ mocha.describe('-- Testing Mongo ---', () => {
 
                 mediator.emit('boot.ready');
             });
-        })
+        }); 
+
+        it('should throw an error if Event Emitter Object is not passed', () => {
+            chai.assert.throws(() => {
+                mongo.connect(config.dbSettings.test.url, {}); 
+            });
+        });
+        
     });
+
+    describe('Testing disconnect function', () => {
+        it('should successfully disconnect from the database', (done) => {
+            const mediator = new EventEmitter(); 
+
+            mediator.on('db.ready', (connection) => {
+                
+                mongo.disconnect().then((res) => {
+                    console.log(res);
+                    chai.assert.equal(res, 'Successfully disconnected from MongoDB');
+                    done();
+                });
+            }); 
+
+            mongo.connect(config.dbSettings.test.url, mediator);
+
+            mediator.emit('boot.ready');
+        }); 
+
+        it('should throw an error if trying to disconnect from the DB when it is not even connected', (done) => {
+        
+            mongo.disconnect().catch((err) => {
+                chai.assert.exists(err);
+                done();
+            });
+        }); 
+    }); 
 });

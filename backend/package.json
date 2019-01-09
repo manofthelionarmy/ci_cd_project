@@ -5,17 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha src/tests/$NODE_ENV/*.spec.js ",
-    "unit_test": "export NODE_ENV=unit_test && nyc mocha src/tests/unit_test/*.spec.js",
-    "integration_test": "export NODE_ENV='integration_test' && mocha src/tests/integration_test/*.spec.js"
+    "unit_test": "export NODE_ENV=unit_test && nyc mocha src/tests/unit_test/*.spec.js --exit",
+    "integration_test": "export NODE_ENV='integration_test' && nyc mocha src/tests/integration_test/*.spec.js --exit"
   },
   "author": "Armando Leon",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "config": "^3.0.1",
     "express": "^4.16.4",
     "mongoose": "^5.4.2"

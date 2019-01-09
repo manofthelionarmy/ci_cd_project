@@ -11,6 +11,11 @@ const dbSettings = {
     }
 }
 
+const serverSettings = {
+    port: process.env.PORT || 3000
+}
+
 module.exports = {
-    dbSettings: dbSettings
-}; 
+    dbSettings: dbSettings,
+    serverSettings: serverSettings
+};  
