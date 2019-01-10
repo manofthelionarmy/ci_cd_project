@@ -1,0 +1,9 @@
+div.container {
+
+  margin-top: 10em;
+
+}
+div.jumbotron {
+  background-color: white;
+  box-shadow: 0em 0.5em 3em 0.2em lightgray;
+}
