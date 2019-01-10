@@ -14,23 +14,30 @@ mediator.on('db.ready', (connection) => {
     connect(connection, hobbyController).then((controller) => {
         // add the routes to the express app
         hobbyAPI.addRoutes(app, controller); 
-        server.start(serverSettings.port).then((serv) => {
-            serv.on('close', () => {
-                connection.close(() => {
-                    console.log('Disconnected from MongoDB');
-                }); 
-            }); 
-        }).catch((err) => {
-            console.log(serverSettings);
-            console.log(err); 
-        })
+
+        mediator.emit('boot.server'); 
+        
     }).catch((err) => {
         console.log(err);
     }); 
+   
 }); 
 
 mediator.on('db.error', (err) => {
     console.log(err);
+}); 
+
+mediator.once('boot.server', () => {
+    server.start(serverSettings.port).then((serv) => {
+        serv.on('close', () => {
+            db.disconnect().then((res) => {
+                console.log(res);
+            })
+        });
+    }).catch((err) => {
+        console.log(serverSettings);
+        console.log(err);
+    }); 
 }); 
 
 db.connect(dbSettings.default.url, mediator);

@@ -10,6 +10,7 @@ const hobbyController = (db_connection) => {
                     if (err) {
                         throw(new Error('Experienced an error while trying to get all hobbies'));
                     } else {
+                        // console.log(res);
                         resolve(res);
                     }
                 });
@@ -17,6 +18,31 @@ const hobbyController = (db_connection) => {
                 reject(error);          
             } 
             
+        });
+    }
+
+    const addHobby = (name, hobby) => {
+        return new Promise((resolve, reject) => {
+            try {
+                let Hobby = db_connection.model('Hobby');
+
+                const document = new Hobby({
+                    name: name,
+                    hobby: hobby
+                });
+
+                document.save().then((res) => {
+                    resolve({
+                        hobby: res,
+                        message: 'Successfully saved hobby'
+                    });
+                });
+
+                
+
+            } catch (err) {
+                reject(err);
+            }
         });
     }
 
@@ -36,7 +62,8 @@ const hobbyController = (db_connection) => {
 
     return {
         getAllHobbies: getAllHobbies,
-        disconnect: disconnect
+        disconnect: disconnect,
+        addHobby: addHobby
     }
 }
 

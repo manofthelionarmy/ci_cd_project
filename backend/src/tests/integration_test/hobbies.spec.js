@@ -25,7 +25,7 @@ mocha.describe(('Testing Hobbies API'), () => {
                 }); 
             }); 
 
-            db.connect(dbSettings.test.url, mediator);
+            db.connect(dbSettings.default.url, mediator);
 
             mediator.emit('boot.ready'); 
 
@@ -47,4 +47,42 @@ mocha.describe(('Testing Hobbies API'), () => {
             });
         }); 
     }); 
+
+    describe('Testing addHobby REST endpoint', () => {
+        before((done) => {
+
+            const mediator = new EventEmitter();
+
+            mediator.on('db.ready', (connection) => {
+                connect(connection, hobbyController).then((controller) => {
+                    hobbyAPI.addRoutes(app, controller);
+                    done();
+                });
+            });
+
+            db.connect(dbSettings.default.url, mediator);
+
+            mediator.emit('boot.ready');
+
+        });
+
+        it('should successfully add hobby', () => {
+            chai.request(app).post('/api/hobbies/addHobby').send({
+                name: 'Isaiah',
+                hobby: 'basketball'
+            }).end((err, res) => {
+               
+                chai.assert.equal(res.status, 201);
+                chai.assert.equal(res.body.message, 'Successfully saved hobby'); 
+            });
+        }); 
+
+
+        after((done) => {
+            db.disconnect().then((res) => {
+                console.log(res);
+                done();
+            });
+        }); 
+    });
 }); 

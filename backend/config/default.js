@@ -7,7 +7,7 @@ const dbSettings = {
         url: 'mongodb://localhost:27017/data'
     }, 
     default: {
-        url: 'mongodb://localhost:27017/data'
+        url: 'mongodb+srv://mando:1KBNWdXuNKTAJb3e@cluster0-ewz1r.mongodb.net/hobbies?retryWrites=true'
     }
 }
 

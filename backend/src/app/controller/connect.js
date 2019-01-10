@@ -1,7 +1,7 @@
 
-
-
 // Checking if the object is an empty object via stack overflow: https://stackoverflow.com/a/32108184/10837566
+// lodash doesn't work, method here used is the best :)
+
 const isEmpty = (obj) => {
 
     for (var prop in obj) {

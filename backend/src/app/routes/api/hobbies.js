@@ -16,6 +16,14 @@ const addRoutes = (app, hobbyController) => {
         });  
     }); 
 
+    router.post('/hobbies/addHobby', (req, res, next) => {
+        hobbyController.addHobby(req.body.name, req.body.hobby).then((response) => {
+            res.status(201).json ({
+                message: response.message
+            }); 
+        });
+    }); 
+
     app.use('/api', router);
 }; 
 

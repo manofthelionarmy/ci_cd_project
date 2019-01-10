@@ -10,8 +10,11 @@ const connect = (url, mediator) => {
     mediator.once('boot.ready', () => {
 
         const mongoURL = url; 
+
+        // console.log(url); 
    
         mongoose.connect(mongoURL, {useNewUrlParser: true});  
+
             
         mongoose.connection.once('open', () => {
             console.log('Connected to Database');

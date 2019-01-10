@@ -90,5 +90,26 @@ mocha.describe('-- Testing Controller --', () => {
 
             mediator.emit('boot.ready');
         }); 
+
+        describe('Testing addHobby function', () => {
+            it('should successfully add a hobby', (done) => {
+                const mediator = new EventEmitter();
+
+                mediator.on('db.ready', (db_connection) => {
+                    connect(db_connection, hobbyController).then((controller) => {
+                        controller.addHobby('Armando', 'coding').then((res) => {
+                            chai.assert.equal(res.message, 'Successfully saved hobby'); 
+                            console.log(res.hobby);
+                            done();
+                        })
+                    });
+
+                });
+
+                mongo.connect(config.dbSettings.test.url, mediator);
+
+                mediator.emit('boot.ready');
+            }); 
+        });
     })
 });
