@@ -1,12 +1,7 @@
 const http = require('http');
 const debug = require('debug')('node-angular');
-// const hobbyAPI = require('../routes/api/hobbies');
-const app = require('../server/app');
-// const {hobbyController} = require('../controller/hobby_controller');
+const app = require('./app');
 
-let server = null; 
-
-let port = null; 
 
 const normalizePort = (val) => {
     var port = parseInt(val, 10);
@@ -49,24 +44,13 @@ const onListening = () => {
     const addr = server.address();
     const bind = typeof addr === "string" ? "pipe" + addr : "port" + port;
     debug("Listening on " + bind);
-    
+
     console.log("Listening on " + port);
 }
 
-// Passes the Express app to configure the API routes to be used, as well as giving the functions to the REST API
-// hobbyAPI.addRoutes(app, hobbyController);
+const start = (portSettings)  => {
 
-
-/**
- * 
- * @param {*} settings This is the db config settings. 
- */
-
-const start = (portSettings) => {
     return new Promise((resolve, reject) => {
-
-        
-        //Crete our server with the Express app
         try {
             port = normalizePort(portSettings);
 
@@ -77,12 +61,11 @@ const start = (portSettings) => {
             server.on("listening", onListening);
 
             // The call back resolves our server once it is listening on the port. 
-            server.listen(port, () => resolve(server)); 
-        } catch(error) {
-            reject(error); 
+            server.listen(port, () => resolve(server));
+        } catch (error) {
+            reject(error);
         }
-        
-    }); 
+    });
 }
 
 module.exports = {
