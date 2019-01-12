@@ -28,6 +28,6 @@ mediator.once('boot.server', () => {
     });
 });
 
-db.connect(dbSettings.url, mediator);
+db.connect(dbSettings.default.url, mediator);
 
 mediator.emit('boot.ready'); 
