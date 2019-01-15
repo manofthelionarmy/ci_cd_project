@@ -1,3 +1,7 @@
+const path = require('path');
+
+process.env['NODE_CONFIG_DIR'] = path.resolve(__dirname, '../config');
+
 const hobbyService = require('../../src/app/server/services/hobbies.service');
 const mocha = require('mocha');
 const chai = require('chai');

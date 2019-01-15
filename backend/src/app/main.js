@@ -1,5 +1,11 @@
-const server = require('./src/app/server');
-const db = require('./src/app/db');
+//Setting the config directory
+const path = require('path');
+
+process.env['NODE_CONFIG_DIR'] = path.resolve(__dirname, 'config');
+
+
+const server = require('./server');
+const db = require('./db');
 const {dbSettings} = require('config');
 const {serverSettings} = require('config');
 const {EventEmitter} = require('events');

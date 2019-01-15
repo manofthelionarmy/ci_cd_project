@@ -20,15 +20,6 @@ const connect = (url, mediator) => {
             mediator.emit('db.error', (err));
         });
 
-
-        /*mongoose.connection.once('open', () => {
-            
-        });
-
-        mongoose.connection.on('error', (err) => {
-            
-        });*/
-
     });
 }
 
