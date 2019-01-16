@@ -1,6 +1,3 @@
-language: node_js
-node_js: 
-  - "8.11.1"
 dist: trusty
 sudo: required
 
@@ -12,6 +9,9 @@ branches:
     - master
 
 maxtrix:
+  language: node_js
+  node_js: "8.11.1"
+  
   include: 
     #Concurrent Tests: Express Unit Tests
     - name: "Node Test"
@@ -22,9 +22,9 @@ maxtrix:
       env:
           - NODE_ENV=unit_test
       install:
-          - npm install
+          - cd backend && npm install
       script:
-            - npm run unit_test
+          - cd backend && npm run unit_test
           
     #Concurrent Test: Angular Unit Tests
     - name: 'Angular Test'
@@ -39,9 +39,11 @@ maxtrix:
       cache:
             directories:
               - frontend/node_modules
+      before_install: 
+        - npm install -g @angular/cli
       
       install:
-        - npm install
+        - cd frontend && npm install
           
-      script: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      script: cd frontend && npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
           
