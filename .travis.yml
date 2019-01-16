@@ -8,7 +8,7 @@ branches:
   only:
     - master
 
-maxtrix:
+matrix:
   language: node_js
   node_js: 
     - "8.11.1"
