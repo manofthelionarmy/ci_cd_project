@@ -1,14 +1,14 @@
 <div class="container">
   <div class="jumbotron">
-    <form>
+    <form [formGroup]="hobbiesForm" (submit)="onSubmit()">
       <div class="form-group">
         <label for="nameInput">Name</label>
-        <input type="text" class="form-control" id="nameInput" aria-describedby="nameHelp" placeholder="Enter Name">
+        <input type="text" class="form-control" id="nameInput" aria-describedby="nameHelp" placeholder="Enter Name" formControlName="name">
         <small id="nameHelp" class="form-text text-muted">Can enter first name or full name</small>
       </div>
       <div class="form-group">
         <label for="hobbyInput">Hobby</label>
-        <input type="text" class="form-control" id="hobbyInput" aria-describedby="hobbyHelp" placeholder="Enter Hobby">
+        <input type="text" class="form-control" id="hobbyInput" aria-describedby="hobbyHelp" placeholder="Enter Hobby" formControlName="hobby">
         <small id="hobbyHelp" class="form-text text-muted">Feel free to share any hobbies</small>
       </div>
       <button type="submit" class="btn btn-outline-primary">Submit</button>
