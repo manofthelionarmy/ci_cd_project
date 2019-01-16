@@ -22,13 +22,13 @@ matrix:
               - backend/node_modules
       env:
         - NODE_ENV=unit_test
+        - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
       before_install: 
-        - echo ${TRAVIS_HOME}
-        - cd ${HOME}/build/manofthelionarmy/ci_cd_project/backend
+        - cd ${CI_CD_PROJ}/backend
       install:
           - npm install
       before_script: 
-        - cd ${HOME}/build/manofthelionarmy/ci_cd_project/backend
+        - cd ${CI_CD_PROJ}/backend
       script:
           - npm run unit_test
           
@@ -45,15 +45,17 @@ matrix:
       cache:
             directories:
               - frontend/node_modules
+      env:
+        - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
       before_install: 
         - npm install -g @angular/cli
-        - cd $frontend
+        - cd ${CI_CD_PROJ}/frontend
       
       install:
         - npm install
       
       before_script:
-        - cd frontend
+        - cd ${CI_CD_PROJ}/frontend
           
       script: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
           
