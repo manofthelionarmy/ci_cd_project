@@ -23,11 +23,12 @@ matrix:
       env:
         - NODE_ENV=unit_test
       before_install: 
-        - cd backend
+        - echo ${TRAVIS_HOME}
+        - cd ${HOME}/build/manofthelionarmy/ci_cd_project/backend
       install:
           - npm install
       before_script: 
-        - cd backend
+        - cd ${HOME}/build/manofthelionarmy/ci_cd_project/backend
       script:
           - npm run unit_test
           
@@ -46,7 +47,7 @@ matrix:
               - frontend/node_modules
       before_install: 
         - npm install -g @angular/cli
-        - cd frontend
+        - cd $frontend
       
       install:
         - npm install
