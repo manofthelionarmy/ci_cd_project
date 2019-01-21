@@ -14,13 +14,13 @@ const getAllHobbies = () => {
 
 const addHobby = (hobby) => {
     return new Promise((resolve, reject) => {
-        const hobby = new Hobby({
+        const h = new Hobby({
             name: hobby.name,
             hobby: hobby.hobby
         });
 
-        hobby.save().then((h) => {
-            resolve({hobbyId: h._id, message: 'Succesfully saved a hobby.'});
+        h.save().then((h) => {
+            resolve({hobbyId: h._id, message: 'Successfully saved a hobby.'});
         }).catch((err) => {
             // Reject when an error occurs during the save
             reject(err); 

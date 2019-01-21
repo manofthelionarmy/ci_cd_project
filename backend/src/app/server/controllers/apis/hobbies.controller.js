@@ -1,6 +1,6 @@
 const hobbiesService = require('../../services/hobbies.service');
 
-const getAll = (req, res) => {
+const getAll = (req, res, next) => {
     hobbiesService.getAllHobbies().then((hobbies) => {
         res.status(200).json({
             hobbies: hobbies,
@@ -13,6 +13,25 @@ const getAll = (req, res) => {
     });
 }
 
+const addHobby = (req, res, next) => {
+    const hobby = {
+        name: req.body.name,
+        hobby: req.body.hobby
+    };
+
+    hobbiesService.addHobby(hobby).then((result) => {
+        res.status(201).json({
+            hobbyId: result.hobbyId,
+            message: result.message
+        });
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message
+        });
+    });
+}
+
 module.exports = {
-    getAll: getAll
+    getAll: getAll,
+    addHobby: addHobby
 }

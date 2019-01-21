@@ -61,6 +61,8 @@ mocha.describe('Testing Hobby Services', () => {
                 console.log(err.message);
                 chai.assert.exists(err);
                 chai.assert.equal(err.message,'Cannot get all hobbies'); 
+
+                ModelFindStub.restore();
                 done();
             }); 
 
@@ -87,31 +89,36 @@ mocha.describe('Testing Hobby Services', () => {
             mediator.emit('boot.ready');
         });
         
-        it('should return a resolved promise when a hobby is successfully added', (done) => {
+        it('should return a resolved promise when a hobby is successfully added', async () => {
+
+            const result = await Hobby.db.dropDatabase();
 
             const hobby = {
                 name: 'Armando',
                 hobby: 'learning'
             }; 
 
-            hobbyService.addHobby(hobby).then((res) => {
-                chai.assert.exists(res.hobbyId);
-                chai.assert.equal(res.message, 'Successfully saved a hobby.');
-                done(); 
-            }); 
-        }); 
+            const res = await hobbyService.addHobby(hobby); 
 
-        it('should catch an error if an error is thrown while saving the hobby', () => {
+            chai.assert.exists(res.hobbyId);
+            chai.assert.equal(res.message, 'Successfully saved a hobby.');
+
+            
+        });
+
+        it('should catch an error if an error is thrown while saving the hobby', (done) => {
             const hobby = {
                 name: 'Evan',
                 hobby: 'drawing'
             }; 
 
-            const ModelSaveStub = sinon.stub(Hobby, 'save').rejects(); 
+            const ModelSaveStub = sinon.stub(Hobby.prototype, 'save').rejects(); 
 
             hobbyService.addHobby(hobby).catch((err) => {
-                console.log(err);
+                console.log(err.message);
                 chai.assert.exists(err); 
+
+                ModelSaveStub.restore();
                 done();
             }); 
         }); 
