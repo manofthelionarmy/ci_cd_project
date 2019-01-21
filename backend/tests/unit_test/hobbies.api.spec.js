@@ -22,20 +22,28 @@ const chaiHttp = require('chai-http');
 // Extend the capabilities of chai to use chai-http
 chai.use(chaiHttp);
 
+//Setting up In Memory MongoDB
+const {MongoMemoryServer} = require('mongodb-memory-server');
+const mongod = new MongoMemoryServer();
 
 describe('Testing hobbies controller', () => {
+  
     describe('Testing getAll controller function', () => {
 
-        before((done) => {
-            const mediator = new EventEmitter();
+        before('Connecting to DB', (done) => {
+            mongod.getConnectionString().then((mongoUri) => {
+                const mediator = new EventEmitter();
 
-            mediator.on('db.ready', () => {
-                done();
+                mediator.on('db.ready', () => {
+                    done();
+                });
+
+                db.connect(mongoUri, mediator);
+
+                mediator.emit('boot.ready');
+    
+
             });
-
-            db.connect(dbSettings.test.url, mediator);
-
-            mediator.emit('boot.ready');
         });
 
         it('should get hobbies metadata with a 200 status', (done) => {
@@ -86,19 +94,22 @@ describe('Testing hobbies controller', () => {
                 done();
             }); 
         });
-    }); 
+    });
 
     describe('Testing addHobby function', () => {
         before((done) => {
-            const mediator = new EventEmitter();
+            mongod.getConnectionString().then((mongoUri) => {
+                const mediator = new EventEmitter();
 
-            mediator.on('db.ready', () => {
-                done();
+                mediator.on('db.ready', () => {
+                    done();
+                });
+
+                db.connect(mongoUri, mediator);
+
+                mediator.emit('boot.ready');
+
             });
-
-            db.connect(dbSettings.test.url, mediator);
-
-            mediator.emit('boot.ready');
         });
 
         it('should save a hobby and return a message saying: "Successfully saved a hobby."', (done) => {
@@ -140,10 +151,16 @@ describe('Testing hobbies controller', () => {
         }); 
 
         after((done) => {
+
             db.disconnect().then((res) => {
                 console.log(res);
                 done();
             });
         });
+    });
+
+    after((done) => {
+        mongod.stop();
+        done();
     });
 }); 

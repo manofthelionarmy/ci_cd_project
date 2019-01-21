@@ -10,7 +10,24 @@ const {dbSettings} = require('config');
 const mongoose = require('mongoose');
 const sinon = require('sinon');
 
+const {MongoMemoryServer} = require('mongodb-memory-server');
+const mongod = new MongoMemoryServer();
+
+
+
 describe('Testing Mongo DB', () => {
+
+    /**
+     * Setting up in memoryDB
+     */
+    let mongoUri = null; 
+
+    before( async() => {
+        
+        mongoUri = await mongod.getConnectionString();
+
+    });
+
     describe('Testing connect function', () => {
         it('should successfully connect and emit an EventEmitter Object', (done) => {
             const mediator = new EventEmitter();
@@ -23,7 +40,7 @@ describe('Testing Mongo DB', () => {
                 done();
             });
 
-            db.connect(dbSettings.test.url, mediator);
+            db.connect(mongoUri, mediator);
 
             mediator.emit('boot.ready');
         });
@@ -41,7 +58,7 @@ describe('Testing Mongo DB', () => {
                 done();
             });
 
-            db.connect(dbSettings.test.url, mediator);
+            db.connect(mongoUri, mediator);
 
             mediator.emit('boot.ready');
         });
@@ -58,5 +75,10 @@ describe('Testing Mongo DB', () => {
                done();
            });
        });
+    }); 
+
+    after((done) => {
+        mongod.stop();
+        done();
     }); 
 });

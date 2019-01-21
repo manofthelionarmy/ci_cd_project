@@ -11,23 +11,30 @@ const {EventEmitter} = require('events');
 const sinon = require('sinon');
 const Hobby = require('../../src/app/models/hobbies.model');
 
-mocha.describe('Testing Hobby Services', () => {
-    
+/**Documentation found at: https://github.com/nodkz/mongodb-memory-server#simple-mochachai-test-example
+ * Had to increase the mocha timeout due to the issue stated in the link above. 
+ */
+const {MongoMemoryServer} = require('mongodb-memory-server');
+const mongod = new MongoMemoryServer();
+
+describe('Testing Hobby Services', () => {
 
     describe('Testing getAllHobbies function', () => {
 
         before((done) => {
 
-            const mediator = new EventEmitter();
+            mongod.getConnectionString().then((mongoUri) => {
+                const mediator = new EventEmitter();
 
-            mediator.on('db.ready', () => {
-                // sinon.stub(Hobby.prototype, 'find');
-                done();
+                mediator.on('db.ready', () => {
+                    done();
+                });
+
+                db.connect(mongoUri, mediator);
+
+                mediator.emit('boot.ready');
+
             });
-
-            db.connect(dbSettings.test.url, mediator);
-
-            mediator.emit('boot.ready');
 
         });
         it('should return a Promise with the resolved hobbies', (done) => {
@@ -74,19 +81,22 @@ mocha.describe('Testing Hobby Services', () => {
                 done();
             }); 
         });
-    }); 
+    });
 
     describe('Testing addHobby function', () => {
         before((done) => {
-            const mediator = new EventEmitter();
+            mongod.getConnectionString().then((mongoUri) => {
+                const mediator = new EventEmitter();
 
-            mediator.on('db.ready', () => {
-                done();
+                mediator.on('db.ready', () => {
+                    done();
+                });
+
+                db.connect(mongoUri, mediator);
+
+                mediator.emit('boot.ready');
+
             });
-
-            db.connect(dbSettings.test.url, mediator);
-
-            mediator.emit('boot.ready');
         });
         
         it('should return a resolved promise when a hobby is successfully added', async () => {
@@ -129,5 +139,10 @@ mocha.describe('Testing Hobby Services', () => {
                 done();
             }); 
         }); 
-    }); 
+    });
+
+    after((done) => {
+        mongod.stop();
+        done();
+    });
 });

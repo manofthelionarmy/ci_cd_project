@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha src/tests/$NODE_ENV/*.spec.js ",
-    "unit_test": "export NODE_ENV=unit_test && nyc mocha tests/unit_test/*.spec.js --exit",
+    "unit_test": "export NODE_ENV=unit_test && nyc mocha tests/unit_test/*.spec.js --timeout 6000 --exit",
     "integration_test": "export NODE_ENV='integration_test' && nyc mocha src/tests/integration_test/*.spec.js --exit",
     "start": "node src/app/main.js"
   },
@@ -15,6 +15,8 @@
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "mocha": "^5.2.0",
+    "mockgoose": "^8.0.1",
+    "mongodb-memory-server": "^3.0.0",
     "nyc": "^13.1.0",
     "sinon": "^7.2.2"
   },
