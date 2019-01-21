@@ -2,12 +2,14 @@
  * test - the configuration for the test environment
  * default - the configuration for the environment when the app is running locally
  */
+const dotenv = require('dotenv').config();
+
 const dbSettings = {
     test: {
         url: 'mongodb://localhost:27017/data'
     },
     default: {
-        url: 'mongodb+srv://mando:1KBNWdXuNKTAJb3e@cluster0-ewz1r.mongodb.net/hobbies?retryWrites=true'
+        url: process.env.ATLAS_URL || 'mongodb://localhost:27017/data'
     }
 }
 

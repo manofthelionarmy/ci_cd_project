@@ -2,3 +2,9 @@ nav {
   box-shadow: 0em 0.2em 1em 0.2em lightgray;
   background-color: whitesmoke;
 }
+
+nav span.h1{
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+  font-weight: lighter;
+}

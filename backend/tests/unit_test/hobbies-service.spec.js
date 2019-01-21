@@ -70,7 +70,57 @@ mocha.describe('Testing Hobby Services', () => {
             db.disconnect().then((res) => {
                 console.log(res);
                 done();
-            })
+            }); 
         });
+    }); 
+
+    describe('Testing addHobby function', () => {
+        before((done) => {
+            const mediator = new EventEmitter();
+
+            mediator.on('db.ready', () => {
+                done();
+            });
+
+            db.connect(dbSettings.test.url, mediator);
+
+            mediator.emit('boot.ready');
+        });
+        
+        it('should return a resolved promise when a hobby is successfully added', (done) => {
+
+            const hobby = {
+                name: 'Armando',
+                hobby: 'learning'
+            }; 
+
+            hobbyService.addHobby(hobby).then((res) => {
+                chai.assert.exists(res.hobbyId);
+                chai.assert.equal(res.message, 'Successfully saved a hobby.');
+                done(); 
+            }); 
+        }); 
+
+        it('should catch an error if an error is thrown while saving the hobby', () => {
+            const hobby = {
+                name: 'Evan',
+                hobby: 'drawing'
+            }; 
+
+            const ModelSaveStub = sinon.stub(Hobby, 'save').rejects(); 
+
+            hobbyService.addHobby(hobby).catch((err) => {
+                console.log(err);
+                chai.assert.exists(err); 
+                done();
+            }); 
+        }); 
+
+        after((done) => {
+            db.disconnect().then((res) => {
+                console.log(res);
+                done();
+            }); 
+        }); 
     }); 
 });
