@@ -1,10 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, Subject } from 'rxjs';
+import { Hobby } from './../models/hobbies.model';
+import { HobbiesService } from './../services/hobbies.service';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { HobbiesComponent } from './hobbies.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Injectable } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { debug } from 'util';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 
 describe('HobbiesComponent', () => {
@@ -17,14 +20,98 @@ describe('HobbiesComponent', () => {
   // Allows me to grab any HTML object
   let el: HTMLElement;
 
+  /**const HobbiesServiceStub  {
+    addHobby: (hobby: Hobby) => {},
+    getAllHobbies: () => {
+      const hobbies: Hobby[] = [];
+      const hobby1: Hobby = {
+        id: null,
+        name: 'Armando',
+        hobby: 'coding'
+      };
+      const hobby2: Hobby = {
+        id: null,
+        name: 'Armando',
+        hobby: 'coding'
+      };
+      hobbies.push(hobby1, hobby2);
+      return [...hobbies];
+    },
+  };*/
+
+  // Created a stub class to have an HttpTesting Controller... I'm not so sure if I need this right now.
+  // I guess it depends on what I want to test. I want to make sure when the button is clicked, that it adds the metadata appropriately
+  // But Angular says: Only test the component: https://angular.io/guide/testing#provide-service-test-doubles
+  /**
+   * The documentation above says our goal is to test the component, not the service. Testing the service will and component will be a
+   * nightmare.
+   */
+  // Created a Mock Service of HobbiesService
+  class HobbiesMockService {
+
+    hobbies: Hobby[] = [];
+
+    hobbiesSub: Subject<Hobby[]> = new Subject<Hobby[]>();
+
+    constructor() {}
+
+    addHobby(hobby: Hobby): void {
+      this.hobbies.push(hobby);
+    }
+
+    getAllHobbies() {
+
+      const hobby1: Hobby = {
+        id: null,
+        name: 'Armando',
+        hobby: 'coding'
+      };
+      const hobby2: Hobby = {
+        id: null,
+        name: 'Isaiah',
+        hobby: 'basketball'
+      };
+      this.hobbies.push(hobby1, hobby2);
+      this.hobbiesSub.next([...this.hobbies]);
+    }
+
+    getHobbiesUpdatedList(): Observable<Hobby[]> {
+      return this.hobbiesSub.asObservable();
+    }
+  }
+
+  /*const HobbiesServiceStub2: jasmine.SpyObj<HobbiesService> =
+                jasmine.createSpyObj('HobbiesService', ['addHobby', 'getAllHobbies', 'getHobbiesUpdatedList']);*/
+
+  // HobbiesServiceStub2.addHobby.and.callFake(() => {});
+
+  let hobbiesService: HobbiesService;
+
+
   // Before each test, initialize the TestBed
   // Here, you declare your imports (modules) and declare your components
   beforeEach(async(() => {
+
+    // Both solutions work: This one overrides the providers of the component
+    // Don't need HttpTestingModule for this to work. Completely replacing the service suffices
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [ HobbiesComponent ]
+      declarations: [ HobbiesComponent ],
+    }).overrideComponent(HobbiesComponent, {
+      set: {
+        providers: [
+          {provide: HobbiesService, useClass: HobbiesMockService}
+        ]
+      }
     })
     .compileComponents();
+    // This overrides the providers for the root module
+    // Works because we only have one module: the root module
+    /*TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, HttpClientTestingModule],
+      declarations: [HobbiesComponent],
+      providers: [{provide: HobbiesService, useClass: HobbiesServiceStub}]
+    }).compileComponents();**/
   }));
 
   // Before each test, initialize each fixture
@@ -39,6 +126,11 @@ describe('HobbiesComponent', () => {
 
     de = fixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
+
+    // The injected service retrieved is actually our HobbiesMockService
+    hobbiesService = fixture.debugElement.injector.get(HobbiesService);
+
+
   });
 
   it('should create', () => {
@@ -103,5 +195,21 @@ describe('HobbiesComponent', () => {
     // Check if the form is invalid (meaning it has been reset with empty values)
     expect(component.hobbiesForm.valid).toBeFalsy();
 
+  });
+  it('should call HobbiesService.addHobby function when the form is valid', async() => {
+    spyOn(hobbiesService, 'addHobby');
+    // spyOnProperty(component.hobbiesForm, 'valid');
+
+    component.hobbiesForm.controls['name'].setValue('Evan');
+    component.hobbiesForm.controls['hobby'].setValue('drawing');
+
+    fixture.detectChanges();
+
+    expect(component.hobbiesForm.invalid).toBeFalsy();
+
+    el = fixture.debugElement.query(By.css('button')).nativeElement;
+    el.click();
+
+    expect(hobbiesService.addHobby).toHaveBeenCalledTimes(1);
   });
 });

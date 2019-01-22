@@ -1,7 +1,8 @@
+import { HobbiesService } from './../services/hobbies.service';
 import { Hobby } from './../models/hobbies.model';
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
-import { formArrayNameProvider } from '@angular/forms/src/directives/reactive_directives/form_group_name';
+
 
 @Component({
   selector: 'app-hobbies',
@@ -10,10 +11,9 @@ import { formArrayNameProvider } from '@angular/forms/src/directives/reactive_di
 })
 export class HobbiesComponent implements OnInit {
 
-
   hobbiesForm: FormGroup;
 
-  constructor() { }
+  constructor(private hobbiesService: HobbiesService) { }
 
   ngOnInit() {
 
@@ -29,9 +29,12 @@ export class HobbiesComponent implements OnInit {
     }
 
     const hobby: Hobby = {
+      id: null,
       name: this.hobbiesForm.value.name,
       hobby: this.hobbiesForm.value.hobby
     };
+
+    this.hobbiesService.addHobby(hobby);
 
     this.hobbiesForm.reset();
   }

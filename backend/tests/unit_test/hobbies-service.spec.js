@@ -61,6 +61,8 @@ mocha.describe('Testing Hobby Services', () => {
                 console.log(err.message);
                 chai.assert.exists(err);
                 chai.assert.equal(err.message,'Cannot get all hobbies'); 
+
+                ModelFindStub.restore();
                 done();
             }); 
 
@@ -70,7 +72,62 @@ mocha.describe('Testing Hobby Services', () => {
             db.disconnect().then((res) => {
                 console.log(res);
                 done();
-            })
+            }); 
         });
+    }); 
+
+    describe('Testing addHobby function', () => {
+        before((done) => {
+            const mediator = new EventEmitter();
+
+            mediator.on('db.ready', () => {
+                done();
+            });
+
+            db.connect(dbSettings.test.url, mediator);
+
+            mediator.emit('boot.ready');
+        });
+        
+        it('should return a resolved promise when a hobby is successfully added', async () => {
+
+            const result = await Hobby.db.dropDatabase();
+
+            const hobby = {
+                name: 'Armando',
+                hobby: 'learning'
+            }; 
+
+            const res = await hobbyService.addHobby(hobby); 
+
+            chai.assert.exists(res.hobbyId);
+            chai.assert.equal(res.message, 'Successfully saved a hobby.');
+
+            
+        });
+
+        it('should catch an error if an error is thrown while saving the hobby', (done) => {
+            const hobby = {
+                name: 'Evan',
+                hobby: 'drawing'
+            }; 
+
+            const ModelSaveStub = sinon.stub(Hobby.prototype, 'save').rejects(); 
+
+            hobbyService.addHobby(hobby).catch((err) => {
+                console.log(err.message);
+                chai.assert.exists(err); 
+
+                ModelSaveStub.restore();
+                done();
+            }); 
+        }); 
+
+        after((done) => {
+            db.disconnect().then((res) => {
+                console.log(res);
+                done();
+            }); 
+        }); 
     }); 
 });
