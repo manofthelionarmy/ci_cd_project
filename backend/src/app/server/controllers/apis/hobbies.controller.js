@@ -8,6 +8,7 @@ const getAll = (req, res, next) => {
         }); 
     }).catch((err) => {
         res.status(404).json({
+            hobbies: null, 
             message: err.message
         }); 
     });
@@ -26,6 +27,7 @@ const addHobby = (req, res, next) => {
         });
     }).catch((err) => {
         res.status(500).json({
+            hobbyId: null, 
             message: err.message
         });
     });

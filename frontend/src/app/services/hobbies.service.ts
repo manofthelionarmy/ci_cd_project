@@ -16,10 +16,11 @@ export class HobbiesService {
 
   constructor(private http: HttpClient) { }
 
+  // I think it'll be easier to test my code if I don't subscribe because I want to also see if I get message metadata too
 
-  getAllHobbies(): void {
+  getAllHobbies() {
     const url = `${environment.url}/api/v1/hobbies/getAll`;
-    this.http.get<{hobbies: any[], message: string}>(url)
+    return this.http.get<{hobbies: any[], message: string}>(url)
               .pipe(map((res) => {
                 return {
                   hobbies: res.hobbies.map(((hobby) => {
@@ -38,14 +39,14 @@ export class HobbiesService {
               });
   }
 
+  // This may be the only thing we can test because this returns an Observable we can subscribe too...
   getHobbiesUpdatedList(): Observable<Hobby[]> {
     return this.hobbiesSub.asObservable();
   }
 
-
-  addHobby(hobby: Hobby): void {
+  addHobby(hobby: Hobby) {
     const url = `${environment.url}/api/v1/hobbies/addHobby`;
-    this.http.post<{hobbyId: any, message: string}>(url, hobby)
+    return this.http.post<{hobbyId: any, message: string}>(url, hobby)
               .subscribe((res) => {
                 hobby.id = res.hobbyId;
                 this.hobbies.push(hobby);

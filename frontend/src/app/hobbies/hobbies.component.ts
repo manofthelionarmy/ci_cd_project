@@ -11,7 +11,6 @@ import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class HobbiesComponent implements OnInit {
 
-
   hobbiesForm: FormGroup;
 
   constructor(private hobbiesService: HobbiesService) { }

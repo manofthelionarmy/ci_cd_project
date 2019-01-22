@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HobbiesComponent } from './hobbies/hobbies.component';
 import { HeaderComponent } from './header/header.component';
 import { TestBed, async } from '@angular/core/testing';
@@ -19,7 +20,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule, HttpClientTestingModule
       ],
       declarations: [
         AppComponent,

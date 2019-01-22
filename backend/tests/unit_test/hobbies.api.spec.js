@@ -59,6 +59,7 @@ describe('Testing hobbies controller', () => {
 
                 chai.assert.equal(res.status, 404);
                 chai.assert.equal(res.body.message, 'Cannot get all hobbies');
+                chai.assert.notExists(res.body.hobbies);
 
                 //Always restore the stubbed function
                 ModelFindStub.restore();
@@ -73,6 +74,7 @@ describe('Testing hobbies controller', () => {
             chai.request(app).get('/api/v1/hobbies/getAll').end((err, res) => {
                 chai.assert.equal(res.status, 404);
                 chai.assert.exists(res.body.message);
+                chai.assert.notExists(res.body.hobbyId);
 
                 // Always restore the stubbed function
                 getAllStub.restore();
