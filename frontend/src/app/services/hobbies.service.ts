@@ -11,8 +11,8 @@ import {map} from 'rxjs/operators';
 })
 export class HobbiesService {
 
-  hobbiesSub: Subject<Hobby[]> = new Subject<Hobby[]>();
-  hobbies: Hobby[] = [];
+  private hobbiesSub: Subject<Hobby[]> = new Subject<Hobby[]>();
+  private hobbies: Hobby[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -40,7 +40,7 @@ export class HobbiesService {
   }
 
   // This may be the only thing we can test because this returns an Observable we can subscribe too...
-  getHobbiesUpdatedList(): Observable<Hobby[]> {
+  getHobbiesUpdatedList() {
     return this.hobbiesSub.asObservable();
   }
 

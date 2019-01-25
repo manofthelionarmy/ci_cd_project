@@ -16,6 +16,9 @@ class HeaderStubComponent {}
 @Component({selector: 'app-hobbies', template: ''})
 class HobbiesStubComponent {}
 
+@Component({selector: 'app-list', template: ''})
+class ListStubComponent {}
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,9 +27,10 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        HobbiesStubComponent
-      ],
-      schemas: [NO_ERRORS_SCHEMA ]
+        HeaderStubComponent,
+        HobbiesStubComponent,
+        ListStubComponent
+      ]
     }).compileComponents();
   }));
 

@@ -7,12 +7,14 @@ import { HobbiesComponent } from './hobbies/hobbies.component';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { ListComponent } from './list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HobbiesComponent,
-    HeaderComponent
+    HeaderComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,

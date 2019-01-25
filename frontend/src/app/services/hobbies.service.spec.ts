@@ -34,7 +34,7 @@ describe('HobbiesService', () => {
 
     // When I had this subsribed to Observable logic underneath the mockHttp, every test was passing, especially
     // hobbies.length greater than one and hobbies.length equals 0, a contradiction!
-    service.hobbiesSub.asObservable().subscribe((h) => {
+    service.getHobbiesUpdatedList().subscribe((h) => {
       hobbies = h;
       console.log('Added hobby:', hobbies);
       expect(hobbies.length).toBeGreaterThan(0);
