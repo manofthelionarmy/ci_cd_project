@@ -1,15 +1,12 @@
+import { HobbyModule } from './../hobby/hobby.module';
 import { environment } from './../../environments/environment';
 import { Hobby } from './../models/hobbies.model';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import { HobbyModule } from '../hobby/hobby.module';
 
-
-@Injectable({
-  providedIn: HobbyModule
-})
+@Injectable()
 export class HobbiesService {
 
   private hobbiesSub: Subject<Hobby[]> = new Subject<Hobby[]>();

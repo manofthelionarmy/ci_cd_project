@@ -5,6 +5,9 @@ import { HobbiesComponent } from './hobbies/hobbies.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+
+// https://github.com/angular/angular/issues/25784#issuecomment-417919896
+// https://angular.io/guide/providers#providedin-and-ngmodules
 @NgModule({
   declarations: [
     HobbiesComponent,
@@ -20,4 +23,4 @@ import { CommonModule } from '@angular/common';
   ],
   providers: [HobbiesService]
 })
-export class HobbyModule { }
+export class HobbyModule {}
