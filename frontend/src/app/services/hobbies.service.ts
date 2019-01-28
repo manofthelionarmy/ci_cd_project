@@ -4,10 +4,11 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
+import { HobbyModule } from '../hobby/hobby.module';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: HobbyModule
 })
 export class HobbiesService {
 

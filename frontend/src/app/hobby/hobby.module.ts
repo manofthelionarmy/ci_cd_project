@@ -1,3 +1,4 @@
+import { HobbiesService } from './../services/hobbies.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './list/list.component';
 import { HobbiesComponent } from './hobbies/hobbies.component';
@@ -16,6 +17,7 @@ import { CommonModule } from '@angular/common';
   exports: [
     HobbiesComponent,
     ListComponent
-  ]
+  ],
+  providers: [HobbiesService]
 })
 export class HobbyModule { }
