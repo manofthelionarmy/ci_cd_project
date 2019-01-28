@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
-import { Hobby } from './../models/hobbies.model';
-import { HobbiesService } from './../services/hobbies.service';
+import { Hobby } from './../../models/hobbies.model';
+import { HobbiesService } from './../../services/hobbies.service';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { HobbiesComponent } from './hobbies.component';

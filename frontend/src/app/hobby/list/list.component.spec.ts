@@ -1,5 +1,5 @@
-import { Hobby } from './../models/hobbies.model';
-import { HobbiesService } from './../services/hobbies.service';
+import { Hobby } from './../../models/hobbies.model';
+import { HobbiesService } from './../../services/hobbies.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ListComponent } from './list.component';
 import { Subject, Observable, of, observable, defer, Subscription } from 'rxjs';

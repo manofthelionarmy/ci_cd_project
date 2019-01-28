@@ -1,5 +1,5 @@
-import { Hobby } from './../models/hobbies.model';
-import { HobbiesService } from './../services/hobbies.service';
+import { Hobby } from './../../models/hobbies.model';
+import { HobbiesService } from './../../services/hobbies.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 

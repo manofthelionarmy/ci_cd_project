@@ -1,5 +1,5 @@
-import { HobbiesService } from './../services/hobbies.service';
-import { Hobby } from './../models/hobbies.model';
+import { HobbiesService } from './../../services/hobbies.service';
+import { Hobby } from './../../models/hobbies.model';
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
 
