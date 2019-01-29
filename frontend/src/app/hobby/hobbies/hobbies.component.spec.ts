@@ -1,6 +1,7 @@
+import { HobbyModule } from './../hobby.module';
 import { Observable, Subject } from 'rxjs';
-import { Hobby } from './../models/hobbies.model';
-import { HobbiesService } from './../services/hobbies.service';
+import { Hobby } from './../../models/hobbies.model';
+import { HobbiesService } from './../../services/hobbies.service';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { HobbiesComponent } from './hobbies.component';
@@ -8,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DebugElement, Injectable } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { CommonModule } from '@angular/common';
 
 
 describe('HobbiesComponent', () => {
@@ -95,16 +97,15 @@ describe('HobbiesComponent', () => {
     // Both solutions work: This one overrides the providers of the component
     // Don't need HttpTestingModule for this to work. Completely replacing the service suffices
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [ HobbiesComponent ],
-    }).overrideComponent(HobbiesComponent, {
+      imports: [HobbyModule],
+    }).overrideModule(HobbyModule, {
       set: {
-        providers: [
-          {provide: HobbiesService, useClass: HobbiesMockService}
-        ]
+        imports: [CommonModule, ReactiveFormsModule],
+        declarations: [HobbiesComponent],
+        exports: [HobbiesComponent],
+        providers: [{provide: HobbiesService, useClass: HobbiesMockService}]
       }
-    })
-    .compileComponents();
+    }).compileComponents();
     // This overrides the providers for the root module
     // Works because we only have one module: the root module
     /*TestBed.configureTestingModule({

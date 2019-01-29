@@ -1,5 +1,7 @@
-import { Hobby } from './../models/hobbies.model';
-import { HobbiesService } from './../services/hobbies.service';
+import { CommonModule } from '@angular/common';
+import { HobbyModule } from './../hobby.module';
+import { Hobby } from './../../models/hobbies.model';
+import { HobbiesService } from './../../services/hobbies.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ListComponent } from './list.component';
 import { Subject, Observable, of, observable, defer, Subscription } from 'rxjs';
@@ -44,13 +46,15 @@ describe('ListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListComponent ]
-    }).overrideComponent( ListComponent, {
+      imports: [HobbyModule],
+    }).overrideModule(HobbyModule, {
       set: {
+        imports: [CommonModule],
+        declarations: [ListComponent],
+        exports: [ListComponent],
         providers: [{provide: HobbiesService, useClass: MockHobbiesService}]
       }
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
