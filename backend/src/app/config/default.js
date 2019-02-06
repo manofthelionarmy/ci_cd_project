@@ -9,7 +9,7 @@ const dbSettings = {
         url: 'mongodb://localhost:27017/data'
     }, 
     default: {
-        url: 'mongodb://localhost:27017/data' || process.env.ATLAS_URL
+        url: 'mongodb://db:27017/data' || process.env.ATLAS_URL
     }
 }
 
