@@ -1,0 +1,37 @@
+version: "3.4"
+
+services: 
+  angular:
+    build:
+      context: ./frontend
+      target: development
+    image: angular:dev
+    container_name: angular
+    ports: 
+      - "4200:4200"
+    depends_on: 
+      - nodejs
+  nodejs:
+    build:
+      context: ./backend
+      target: development
+    image: nodejs:dev
+    container_name: nodejs
+    ports: 
+      - "3000:3000"
+    networks: 
+      - backend
+    depends_on: 
+      - db
+    restart: always
+  db:
+    image: mongo
+    container_name: db
+    networks: 
+      - backend
+    ports: 
+      - "27017:27017"
+
+networks: 
+  backend:
+    driver: bridge

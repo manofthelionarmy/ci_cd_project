@@ -29,7 +29,7 @@ matrix:
     # Procuded by running travis encrypt-file --com
     # https://github.com/pockethub/PocketHub/issues/884#issuecomment-145183864 so the problem is that openssl is not permitted to 
     # execute during a pull request, inferring it will work on a deploy (works on the master). Makes more sense because that is when we
-    # need those environment variables
+    # need those environment variables for production
     install:
     - npm install
     before_script:

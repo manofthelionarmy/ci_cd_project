@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 
+// Configured for docker development
 export const environment = {
   production: false,
   url: 'http://192.168.99.101:3000'
