@@ -3,6 +3,7 @@
 // the noder server application
 
 // blank will make the api calls go to http://localhost:4200/api/v1/hobbies
+// Therefore, I will set up a proxy in nginx
 export const environment = {
   production: true,
   url: ''

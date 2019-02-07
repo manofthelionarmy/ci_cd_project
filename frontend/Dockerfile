@@ -30,10 +30,11 @@ CMD [ "npm", "run", "start" ]
 FROM node:alpine as builder
 COPY --from=stage1 /usr/src/app /usr/src/app
 WORKDIR  /usr/src/app
-RUN npm run build
+RUN npm run build --prod
 
 
 FROM nginx:1.13.9-alpine as production
 COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
+COPY --from=stage1 /usr/src/app/nginx/default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
