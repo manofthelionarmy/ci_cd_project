@@ -1,5 +1,5 @@
 # regular node images are based upon debian.
-FROM node:alpine as stage1
+FROM node:10-alpine as stage1
 
 # Install chromium for headless testing
 #RUN apt-get update \
@@ -7,15 +7,15 @@ FROM node:alpine as stage1
 RUN  mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app
-RUN npm cache clean --force
-RUN npm install
+RUN npm cache clean --force \
+    && npm install
 COPY . /usr/src/app
 #EXPOSE 4200
 # make sure to export the chromium location
 #ENV CHROME_BIN /usr/bin/chromium
 #CMD [ "npm", "start" ]
 
-FROM node:alpine as development
+FROM node:10-alpine as development
 COPY --from=stage1 /usr/src/app /usr/src/app
 WORKDIR  /usr/src/app
 RUN apk update && apk upgrade && \

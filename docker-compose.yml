@@ -1,1 +1,38 @@
 version: '3.4'
+
+services: 
+  angular:
+    build: 
+      context: ./frontend
+      target: production
+    # this tags the image
+    image: angular:prod
+    ports: 
+      - "80:80"
+    container_name: angular
+    depends_on: 
+      - nodejs
+  nodejs:
+    build:
+      context: ./backend
+      target: production
+    # this tags the image
+    image: nodejs:prod
+    ports: 
+      - "3000:3000"
+    networks:
+      - backend
+    depends_on: 
+      - db
+    restart: always
+  db:
+    image: mongo
+    container_name: db
+    ports:
+      - "27017:27017"
+    networks: 
+      - backend
+# I created the backend network on my local-machine
+# For swarm production, backend has to be an overlay network, not bridge
+networks: 
+  backend:
