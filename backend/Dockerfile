@@ -4,7 +4,7 @@
 # network has to be bridge)
 # docker container run --name db -p 27017:27017 --network backend mongo
 # That above will allow me to run the tests, so development env will also serve as my test env
-FROM node:10 as development
+FROM node:10-alpine as development
 RUN mkdir -p /usr/src/backend
 COPY package.json /usr/src/backend
 WORKDIR /usr/src/backend
@@ -21,7 +21,8 @@ COPY --from=development /usr/src/backend/src /usr/src/
 COPY --from=development /usr/src/backend/package.json /usr/src
 WORKDIR /usr/src
 RUN npm cache clean --force \
-    && npm install
+# npm install --produciton will just install dev dependencies, not dev dependencies 
+    && npm install --production
 WORKDIR /usr/src/app
 EXPOSE 3000
 CMD ["node", "main.js"] 
