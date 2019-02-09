@@ -6,10 +6,10 @@ const dotenv = require('dotenv').config();
 
 const dbSettings = {
     test: {
-        url: 'mongodb://localhost:27017/data'
+        url: 'mongodb://db:27017/data'
     },
     default: {
-        url: 'mongodb://localhost:27017/data'
+        url: 'mongodb://db:27017/data'
     }
 }
 

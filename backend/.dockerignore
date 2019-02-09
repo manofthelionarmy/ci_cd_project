@@ -1,0 +1,9 @@
+# Don't include node_modules or debug log
+node_modules
+npm-debug.log
+# Don't include the encrypted file
+*.enc
+# Don't include output from code coverage
+.nyc_output
+# Don't include anything git related
+.gitignore
