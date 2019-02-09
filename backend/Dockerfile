@@ -7,7 +7,7 @@
 
 # I'm not sure if I can do the same pattern from article in this Dockerfile,
 # because I don't need all the files for production. 
-# update: I found out a way to do it, as stated below. I just rm the ./tests folder ;)
+# update: I found out a way to do it, as stated below. I just had to rm the ./tests folder ;)
 
 # build for the production image
 FROM node:10-alpine as builder
@@ -30,9 +30,11 @@ CMD ["node", "./src/app/main.js"]
 FROM node:10-alpine as development
 COPY --from=builder /usr/src/backend /usr/src/backend
 WORKDIR /usr/src/backend
+# need to install our devDependencies too
 RUN npm cache clean --force \
     && npm install
 EXPOSE 3000
 CMD ["npm", "start"]
 
+# Our final steps always ensure the final image build will be our production image
 FROM production

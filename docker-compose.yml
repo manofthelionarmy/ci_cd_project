@@ -4,6 +4,7 @@ services:
   angular:
     build: 
       context: ./frontend
+      dockerfile: Dockerfile
       target: production
     # this tags the image
     image: angular:prod
@@ -16,6 +17,7 @@ services:
     build:
       context: ./backend
       target: production
+      dockerfile: Dockerfile
     # this tags the image
     image: nodejs:prod
     ports: 

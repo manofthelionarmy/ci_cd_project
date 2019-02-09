@@ -1,13 +1,17 @@
+
+# Nice option to have in the future: https://stackoverflow.com/questions/36249744/interactive-shell-using-docker-compose
 version: "3.4"
 
 services: 
   angular:
     build:
       context: ./frontend
-      dockerfile: sample.Dockerfile
-      target: test
+      dockerfile: Dockerfile
+      target: development
     image: angular:dev
     container_name: angular
+    #stdin_open: true
+    #tty: true
     ports: 
       - "4200:4200"
     depends_on: 
@@ -15,9 +19,12 @@ services:
   nodejs:
     build:
       context: ./backend
+      dockerfile: Dockerfile
       target: development
     image: nodejs:dev
     container_name: nodejs
+    #stdin_open: true
+    #tty: true
     ports: 
       - "3000:3000"
     networks: 
