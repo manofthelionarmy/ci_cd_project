@@ -36,7 +36,8 @@ matrix:
     - docker image build -t nodejs:dev --target development .
     before_script:
     - docker network create --driver bridge backend
-    - docker container run --name db -p 27017:27017 --network backend
+    # always detach mongodb
+    - docker container run -d --name db -p 27017:27017 --network backend
     script:
     - docker container run -it --name test -p 3000:3000 --network backend nodejs:dev npm run unit_test
     - docker image build -t manofthelionarmy/nodejs:prod .
