@@ -30,12 +30,16 @@ matrix:
     # https://github.com/pockethub/PocketHub/issues/884#issuecomment-145183864 so the problem is that openssl is not permitted to 
     # execute during a pull request, inferring it will work on a deploy (works on the master). Makes more sense because that is when we
     # need those environment variables for production
-    install:
-    - npm install
-    before_script:
+    before_install: 
     - cd ${CI_CD_PROJ}/backend
+    install:
+    - docker image build -t nodejs:dev --target development .
+    before_script:
+    - docker network create --driver bridge backend
+    - docker container run --name db -p 27017:27017 --network backend
     script:
-    - npm run unit_test
+    - docker container run -it --name test -p 3000:3000 --network backend nodejs:dev npm run unit_test
+    - docker image build -t manofthelionarmy/nodejs:prod .
   - name: Angular Test
     addons:
       apt:
@@ -49,10 +53,12 @@ matrix:
     env:
     - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
     before_install:
-    - npm install -g @angular/cli
     - cd ${CI_CD_PROJ}/frontend
     install:
-    - npm install
+    - docker image build -t angular:test --target test -f sample.Dockerfile .
     before_script:
-    - cd ${CI_CD_PROJ}/frontend
-    script: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+     # in the future, may have to run nodjes and mongo for e2e tests
+      - cd ${CI_CD_PROJ}/frontend
+    script: 
+      - docker container run --name test -p 9876:9876 angular:test
+      - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile . 

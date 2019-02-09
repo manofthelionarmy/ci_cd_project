@@ -1,4 +1,4 @@
-# This Docker File works too, but it has 23 layers (3 more than Dockerfile)
+# This Docker File works too, but it has 23 layers (3 more than the original Dockerfile)
 
 ###################
 ##    builder    ##
