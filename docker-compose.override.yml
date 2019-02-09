@@ -4,7 +4,8 @@ services:
   angular:
     build:
       context: ./frontend
-      target: development
+      dockerfile: sample.Dockerfile
+      target: test
     image: angular:dev
     container_name: angular
     ports: 
