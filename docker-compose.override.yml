@@ -6,7 +6,7 @@ services:
   angular:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: sample.Dockerfile
       target: development
     image: angular:dev
     container_name: angular

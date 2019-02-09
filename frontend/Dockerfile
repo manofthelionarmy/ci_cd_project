@@ -11,6 +11,12 @@
 # Though it took a while, when I built the development image by targeting development,
 # it happened so fast. That is because all the necessary steps were built (meaning every step was cached)
 # The last line is important because the last stage makes sure our final image is the production image.
+
+###################
+##    builder    ##
+###################
+
+
 FROM node:10-alpine as builder
 RUN mkdir -p /usr/src/app
 COPY package.json /usr/src/app
@@ -21,6 +27,10 @@ COPY . /usr/src/app
 RUN npm run build --prod
 
 
+##################
+##  production  ##
+##################
+
 FROM nginx:1.13.9-alpine as production
 COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
 COPY --from=builder /usr/src/app/nginx/default.conf /etc/nginx/conf.d/default.conf
@@ -28,9 +38,11 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 
-FROM node:10-alpine as development
-COPY --from=builder /usr/src/app /usr/src/app
-WORKDIR /usr/src/app
+#################
+## development ##
+#################
+
+FROM builder as development
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache chromium nss
