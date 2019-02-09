@@ -11,7 +11,7 @@ COPY package.json /usr/src/frontend
 RUN npm cache clean --force \
   && npm install
 COPY . /usr/src/frontend
-RUN npm run build --prod
+RUN npm run build -- --prod
 
 
 ##################
@@ -48,7 +48,7 @@ EXPOSE 9876
 ENV CHROME_BIN /usr/bin/chromium-browser
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV SASS_BINARY_NAME=linux-x64-67
-CMD [ "npm", "test"]
+CMD [ "npm", "run", "test", "--", "--no-watch", "--no-progress", "--browsers=ChromeHeadlessCI"]
 
 
 FROM production
