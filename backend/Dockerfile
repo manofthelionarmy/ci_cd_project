@@ -7,25 +7,32 @@
 
 # I'm not sure if I can do the same pattern from article in this Dockerfile,
 # because I don't need all the files for production. 
-FROM node:10-alpine as development
+# update: I found out a way to do it, as stated below. I just rm the ./tests folder ;)
+
+# build for the production image
+FROM node:10-alpine as builder
 RUN mkdir -p /usr/src/backend
 COPY package.json /usr/src/backend
 WORKDIR /usr/src/backend
-RUN npm cache clean --force \
-    && npm install
-# COPY src /usr/src/app
+RUN npm cache clean --force && \
+    npm install --production
 COPY . /usr/src/backend
-EXPOSE 3000
-# CMD ["node", "app/main.js"]
-CMD ["npm", "start"]
 
 FROM node:10-alpine as production
-COPY --from=development /usr/src/backend/src /usr/src/
-COPY --from=development /usr/src/backend/package.json /usr/src
-WORKDIR /usr/src
-RUN npm cache clean --force \
-# npm install --produciton will just install dev dependencies, not dev dependencies 
-    && npm install --production
-WORKDIR /usr/src/app
+COPY --from=builder /usr/src/backend /usr/src/backend
+WORKDIR /usr/src/backend
+#We don't need tests in our final build
+RUN rm -rf ./tests
 EXPOSE 3000
-CMD ["node", "main.js"] 
+CMD ["node", "./src/app/main.js"] 
+
+
+FROM node:10-alpine as development
+COPY --from=builder /usr/src/backend /usr/src/backend
+WORKDIR /usr/src/backend
+RUN npm cache clean --force \
+    && npm install
+EXPOSE 3000
+CMD ["npm", "start"]
+
+FROM production
