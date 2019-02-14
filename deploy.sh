@@ -14,4 +14,4 @@ rm known_hosts;
 rm secrets.tar;
 ssh root@${NODE1} << 'ENDSSH'
 ls
-ENDSSH; 
+ENDSSH
