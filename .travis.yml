@@ -1,62 +1,67 @@
 language: node_js
+
 node_js:
   - 8.11.1
 dist: trusty
+
 sudo: required
+
 services:
   - docker
+
 branches:
   only:
     - master
+
 jobs: 
   include: 
     - stage: Unit Test
-          cache:
-            directories:
-              - backend/node_modules
-          env:
-            - NODE_ENV=unit_test
-            - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
-            # https://github.com/pockethub/PocketHub/issues/884#issuecomment-145183864 so the problem is that openssl is not permitted to 
-            # execute during a pull request for a forked repo, inferring it will work on a deploy (works on the master). Makes more sense because that is when we
-            # need those environment variables for production
-            # https://docs.travis-ci.com/user/pull-requests#pull-requests-and-security-restrictions
-            # Read my comment from the merge pull requets for the encrypt branch
-          before_install: 
-            - cd ${CI_CD_PROJ}/backend
-            - openssl aes-256-cbc -K $encrypted_ad7ac6b07c2a_key -iv $encrypted_ad7ac6b07c2a_iv -in .env.enc -out .env -d
-          install:
-            - docker image build -t nodejs:dev --target development .
-          before_script:
-            - docker network create --driver bridge backend
-            # always detach mongodb
-            - docker container run -d --name db -p 27017:27017 --network backend mongo
-          script:
-            - docker container run -it --name test -p 3000:3000 --network backend nodejs:dev npm run unit_test
-            - docker image build -t manofthelionarmy/nodejs:prod .
+      cache:
+        directories:
+          - backend/node_modules
+      env:
+        - NODE_ENV=unit_test
+        - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
+        # https://github.com/pockethub/PocketHub/issues/884#issuecomment-145183864 so the problem is that openssl is not permitted to 
+        # execute during a pull request for a forked repo, inferring it will work on a deploy (works on the master). Makes more sense because that is when we
+        # need those environment variables for production
+        # https://docs.travis-ci.com/user/pull-requests#pull-requests-and-security-restrictions
+        # Read my comment from the merge pull requets for the encrypt branch
+      before_install: 
+        - cd ${CI_CD_PROJ}/backend
+        - openssl aes-256-cbc -K $encrypted_ad7ac6b07c2a_key -iv $encrypted_ad7ac6b07c2a_iv -in .env.enc -out .env -d
+      install:
+        - docker image build -t nodejs:dev --target development .
+      before_script:
+        - docker network create --driver bridge backend
+        # always detach mongodb
+        - docker container run -d --name db -p 27017:27017 --network backend mongo
+      script:
+        - docker container run -it --name test -p 3000:3000 --network backend nodejs:dev npm run unit_test
+        - docker image build -t manofthelionarmy/nodejs:prod .
     - stage: Unit Test
-            addons:
-              apt:
-                sources:
-                - google-chrome
-                packages:
-                - google-chrome-stable
-            cache:
-              directories:
-                - frontend/node_modules
-            env:
-              - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
-            before_install:
-              - cd ${CI_CD_PROJ}/frontend
-            install:
-              - docker image build -t angular:test --target test -f sample.Dockerfile .
-            before_script:
-            # in the future, may have to run nodjes and mongo for e2e tests
-              - cd ${CI_CD_PROJ}/frontend
-            script: 
-              - docker container run --name test -p 9876:9876 angular:test
-              - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile .       
-    - stage: Deploy
+      addons:
+        apt:
+          sources:
+            - google-chrome
+          packages:
+            - google-chrome-stable
+      cache:
+        directories:
+          - frontend/node_modules
+      env:
+        - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
+      before_install:
+        - cd ${CI_CD_PROJ}/frontend
+      install:
+        - docker image build -t angular:test --target test -f sample.Dockerfile .
+      before_script:
+        # in the future, may have to run nodjes and mongo for e2e tests
+        - cd ${CI_CD_PROJ}/frontend
+      script: 
+        - docker container run --name test -p 9876:9876 angular:test
+        - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile .       
+    - stage: deploy
       env: CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
       before_install: 
         - cd ${CI_CD_PROJ};
