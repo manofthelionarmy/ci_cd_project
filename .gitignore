@@ -1,2 +1,4 @@
 .vscode
 .env
+deploy.pub
+known_hosts
