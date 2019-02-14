@@ -10,9 +10,7 @@ branches:
   - master
 jobs: 
   include: 
-    - stage: Unit Tests
-    - matrix:
-      - include:
+    - stage: Unit Test
         - name: Node Test
           cache:
             directories:
@@ -37,29 +35,30 @@ jobs:
           script:
           - docker container run -it --name test -p 3000:3000 --network backend nodejs:dev npm run unit_test
           - docker image build -t manofthelionarmy/nodejs:prod .
-        - name: Angular Test
-          addons:
-            apt:
-              sources:
-              - google-chrome
-              packages:
-              - google-chrome-stable
-          cache:
-            directories:
-            - frontend/node_modules
-          env:
-          - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
-          before_install:
-          - cd ${CI_CD_PROJ}/frontend
-          install:
-          - docker image build -t angular:test --target test -f sample.Dockerfile .
-          before_script:
-          # in the future, may have to run nodjes and mongo for e2e tests
+    - stage: Unit Test
+      - name: Angular Test
+            addons:
+              apt:
+                sources:
+                - google-chrome
+                packages:
+                - google-chrome-stable
+            cache:
+              directories:
+              - frontend/node_modules
+            env:
+            - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
+            before_install:
             - cd ${CI_CD_PROJ}/frontend
-          script: 
-            - docker container run --name test -p 9876:9876 angular:test
-            - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile . 
-    - stage: deploy
+            install:
+            - docker image build -t angular:test --target test -f sample.Dockerfile .
+            before_script:
+            # in the future, may have to run nodjes and mongo for e2e tests
+              - cd ${CI_CD_PROJ}/frontend
+            script: 
+              - docker container run --name test -p 9876:9876 angular:test
+              - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile .       
+    - stage: Deploy
       env: CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
       before_install: 
         - cd ${CI_CD_PROJ};
