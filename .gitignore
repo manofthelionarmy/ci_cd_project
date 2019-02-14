@@ -1,2 +1,5 @@
 .vscode
 .env
+deploy_key
+known_hosts
+secrets.tar
