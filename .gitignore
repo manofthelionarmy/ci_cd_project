@@ -2,3 +2,4 @@
 .env
 deploy.pub
 known_hosts
+secrets.tar

@@ -67,10 +67,8 @@ jobs:
       env: CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
       before_install: 
         - cd ${CI_CD_PROJ};
-        # decrypt deploy key
-        - openssl aes-256-cbc -K $encrypted_b0a416161927_key -iv $encrypted_b0a416161927_iv -in deploy.pub.enc -out deploy.pub -d
-        # decrypt known hosts
-        - openssl aes-256-cbc -K $encrypted_b0a416161927_key -iv $encrypted_b0a416161927_iv -in known_hosts.enc -out known_hosts -d
+        # decrypt secrets.tar
+        - openssl aes-256-cbc -K $encrypted_b0a416161927_key -iv $encrypted_b0a416161927_iv -in secrets.tar.enc -out secrets.tar -d
       before_script: 
         - chmod +x deploy.sh
       script: 
