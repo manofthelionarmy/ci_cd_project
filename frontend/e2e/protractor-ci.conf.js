@@ -5,6 +5,8 @@ const config = require('./protractor.conf').config;
 // https://hub.docker.com/r/weboaks/node-karma-protractor-chrome/
 config.chromeDriver = '/usr/bin/chromedriver';
 
+config.allScriptsTimeout = 20000;
+
 config.capabilities = {
   browserName: 'chrome',
   chromeOptions: {
