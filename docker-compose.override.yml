@@ -7,8 +7,8 @@ services:
     build:
       context: ./frontend
       dockerfile: sample.Dockerfile
-      target: development
-    image: angular:dev
+      target: test
+    image: angular:test
     container_name: angular
     #stdin_open: true
     #tty: true

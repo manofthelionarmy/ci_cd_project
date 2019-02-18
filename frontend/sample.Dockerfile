@@ -43,11 +43,14 @@ CMD ["npm", "start"]
 FROM builder AS test
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache chromium nss
+    apk add --no-cache chromium nss chromium-chromedriver
 EXPOSE 9876
 ENV CHROME_BIN /usr/bin/chromium-browser
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-ENV SASS_BINARY_NAME=linux-x64-67
+# just needed the chromedriver!!!
+# https://github.com/angular/angular-cli/issues/5019
+# https://gitlab.com/dasch8/angular-ci/blob/master/README.md
+#ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+#ENV SASS_BINARY_NAME=linux-x64-67
 CMD [ "npm", "run", "test", "--", "--no-watch", "--no-progress", "--browsers=ChromeHeadlessCI"]
 
 

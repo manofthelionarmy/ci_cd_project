@@ -62,7 +62,22 @@ jobs:
         - cd ${CI_CD_PROJ}/frontend
       script: 
         - docker container run --name test -p 9876:9876 angular:test
-        - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile .       
+        - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile .
+    - stage: E2E Test
+      name: Angular E2E
+      env:  
+        - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
+      before_install: 
+        - sudo rm /usr/local/bin/docker-compose
+        - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+        - chmod +x docker-compose
+        - sudo mv docker-compose /usr/local/bin
+      before_script: 
+        - docker-compose build
+      script:
+        - docker-compose run --name test -p 4200:4200 angular npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+      after_script:
+        - docker-compose down
     - stage: deploy
       env: CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
       before_install: 

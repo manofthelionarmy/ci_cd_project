@@ -1,5 +1,6 @@
 import { AppPage } from './app.po';
 
+// Test bed
 describe('workspace-project App', () => {
   let page: AppPage;
 

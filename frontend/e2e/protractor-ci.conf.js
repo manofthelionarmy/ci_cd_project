@@ -1,5 +1,9 @@
 const config = require('./protractor.conf').config;
 
+// Tell protrator where the chrome driver is
+// https://gitlab.com/dasch8/angular-ci/
+// https://hub.docker.com/r/weboaks/node-karma-protractor-chrome/
+config.chromeDriver = '/usr/bin/chromedriver';
 
 config.capabilities = {
   browserName: 'chrome',
