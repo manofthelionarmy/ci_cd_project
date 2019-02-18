@@ -67,6 +67,7 @@ jobs:
       name: Angular E2E
       env:  
         - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
+        - DOCKER_COMPOSE_VERSION=1.20.1
       before_install: 
         - sudo rm /usr/local/bin/docker-compose
         - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
