@@ -8,8 +8,8 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display navbar with title', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to frontend!');
+    expect(page.getHeaderText()).toEqual('hobbies');
   });
 });
