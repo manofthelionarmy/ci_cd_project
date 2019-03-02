@@ -74,9 +74,9 @@ jobs:
         - chmod +x docker-compose
         - sudo mv docker-compose /usr/local/bin
       before_script: 
-        - docker-compose build
+        - docker-compose -f docker-compose.test.yml build
       script:
-        - docker-compose run --name test -p 4200:4200 angular npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+        - docker-compose -f docker-compose.test.yml run --name test -p 4200:4200 angular npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
       after_script:
         - docker-compose down
     - stage: deploy
