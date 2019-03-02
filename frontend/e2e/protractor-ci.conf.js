@@ -1,3 +1,9 @@
+/**
+ * Remember to check out this link for the other options in
+ * Proctractor:
+ * https://github.com/angular/protractor/blob/master/lib/config.ts
+ */
+
 const config = require('./protractor.conf').config;
 
 // Tell protrator where the chrome driver is
@@ -15,13 +21,16 @@ config.directConnect = true;
 config.baseUrl = "http://0.0.0.0:4200";
 
 // have it connect to selenium
-config.seleniumAddress = "http://0.0.0.0:4444/wd/hub";
+// the network interface is the name of the selenium container, 'selenium'
+config.seleniumAddress = 'http://selenium:4444/wd/hub';
 
 config.capabilities = {
   browserName: 'chrome',
   chromeOptions: {
     args: ['--headless', '--no-sandbox', '--disable-gpu']
-  }
+  },
+
 };
+
 
 exports.config = config;
