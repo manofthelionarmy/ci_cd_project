@@ -4,33 +4,33 @@
  * https://github.com/angular/protractor/blob/master/lib/config.ts
  */
 
-const config = require('./protractor.conf').config;
+let ci_config = require('./protractor.conf').config;
 
 // Tell protrator where the chrome driver is
 // https://gitlab.com/dasch8/angular-ci/
 // https://hub.docker.com/r/weboaks/node-karma-protractor-chrome/
-config.chromeDriver = "/usr/bin/chromedriver";
+ci_config.chromeDriver = "/usr/bin/chromedriver";
 
-config.allScriptsTimeout = 20000;
+ci_config.allScriptsTimeout = 30000;
 
 
 // use the chromeDriver, as specified
-config.directConnect = true;
+ci_config.directConnect = true;
 
 // have it connect to the angular app
-config.baseUrl = "http://0.0.0.0:4200";
+ci_config.baseUrl = "http://0.0.0.0:4200";
 
 // have it connect to selenium
 // the network interface is the name of the selenium container, 'selenium'
-config.seleniumAddress = 'http://selenium:4444/wd/hub';
+ci_config.seleniumAddress = 'http://selenium-hub:4444/wd/hub';
 
-config.capabilities = {
+ci_config.capabilities = {
   browserName: 'chrome',
   chromeOptions: {
-    args: ['--headless', '--no-sandbox', '--disable-gpu']
+    args: ['--headless', '--no-sandbox', 'disable-gpu']
   },
 
 };
 
 
-exports.config = config;
+exports.config = ci_config;
