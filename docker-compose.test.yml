@@ -8,13 +8,13 @@ services:
       dockerfile: sample.Dockerfile
       target: test
     image: angular:test
+    container_name: angular_test
     ports: 
       - "4200:4200"
-    networks:
-      - frontend
     depends_on: 
-      - selenium
+      - chrome_node
       - nodejs 
+    command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
   # set up selenium     
   selenium:
     image: selenium/hub:3.141
@@ -25,12 +25,10 @@ services:
       - frontend
   # set up selenium chrome
   chrome_node: 
+    image: selenium/node-chrome:3.141
     container_name: chrome_node
     depends_on: 
-      - selenium
-    image: selenium/node-chrome:3.141
-    networks: 
-      - frontend
+      - selenium 
   # the nodejs backend
   nodejs:
     build:
@@ -41,8 +39,7 @@ services:
     container_name: nodejs
     ports: 
       - "3000:3000"
-    networks: 
-      - frontend
+    networks:
       - backend
     depends_on: 
       - db
