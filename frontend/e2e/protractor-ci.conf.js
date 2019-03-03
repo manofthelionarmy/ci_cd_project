@@ -19,7 +19,7 @@ config.baseUrl = "http://e2e:4200";
 config.getPageTimeout = 60000;
 
 // Selenium Webdriver timeout
-config.allScriptsTimeout = 100000;
+config.allScriptsTimeout = 180000;
 
 // Jasmine test script timeout
 config.jasmineNodeOpts.defaultTimeoutInterval = 180000;
