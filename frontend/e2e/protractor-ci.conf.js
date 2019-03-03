@@ -31,7 +31,7 @@ config.seleniumAddress = 'http://selenium-hub:4444/wd/hub'
 config.capabilities = {
   browserName: 'chrome',
   chromeOptions: {
-    args: ['headless', 'disable-gpu', 'no-sandbox'],
+    args: ['headless', 'disable-gpu', 'no-sandbox', 'disable-dev-shm-usage'],
   },
   // seleniumAddress: 'http://localhost:4444/wd/hub'
 };
