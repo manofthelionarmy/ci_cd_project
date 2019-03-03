@@ -16,13 +16,13 @@ config.directConnect = false;
 config.baseUrl = "http://e2e:4200";
 
 // Protractor getting the page-timeout
-config.getPageTimeout = 30000;
+config.getPageTimeout = 60000;
 
 // Selenium Webdriver timeout
-config.allScriptsTimeout = 30000;
+config.allScriptsTimeout = 60000;
 
 // Jasmine test script timeout
-config.jasmineNodeOpts.defaultTimeoutInterval = 30000;
+config.jasmineNodeOpts.defaultTimeoutInterval = 180000;
 
 // config.rootElement = 'app-root';
 
