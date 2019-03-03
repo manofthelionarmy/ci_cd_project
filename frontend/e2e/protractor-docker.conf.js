@@ -4,21 +4,27 @@
  * https://github.com/angular/protractor/blob/master/lib/config.ts
  */
 
+// protactor config for dockerized e2e tests on my local machine
+
 let config = require('./protractor.conf').config;
 
+// Tell protrator where the chrome driver is
+// https://gitlab.com/dasch8/angular-ci/
+// https://hub.docker.com/r/weboaks/node-karma-protractor-chrome/
+config.chromeDriver = "/usr/bin/chromedriver";
 
 config.allScriptsTimeout = 30000;
-
-
-// use the chromeDriver, as specified
-config.directConnect = false;
 
 // have it connect to the angular app
 config.baseUrl = "http://localhost:4200";
 
-// have it connect to selenium
-// the network interface is the name of the selenium container, 'selenium'
-config.seleniumAddress = 'http://selenium-hub:4444/wd/hub';
+config.capabilities = {
+  browserName: 'chrome',
+  chromeOptions: {
+    args: ['--headless', '--no-sandbox', '--disable-gpu']
+  },
+
+};
 
 
 exports.config = config;

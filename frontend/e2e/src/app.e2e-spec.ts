@@ -8,8 +8,10 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display navbar with title', () => {
-    page.navigateTo();
+  it('should display navbar with title',  () => {
+    page.navigateTo().then(() => {
+      console.log('Successfully connected to the page');
+    });
     expect(page.getHeaderText()).toEqual('hobbies');
   });
 });

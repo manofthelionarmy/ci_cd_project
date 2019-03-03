@@ -12,29 +12,9 @@ services:
     ports: 
       - "4200:4200"
     depends_on: 
-      - chrome_node
       - nodejs 
-    command: npm run e2e -- --protractor-config=e2e/protractor-docker.conf.js #--host 0.0.0.0
-  # set up selenium     
-  selenium-hub:
-    image: selenium/hub:3.141
-    environment:
-      - GRID_TIMEOUT=10000
-    container_name: selenium-hub
-    ports: 
-      - "4444:4444"
-  
-  # set up selenium chrome
-  chrome_node: 
-    image: selenium/node-chrome:3.141
-    container_name: chrome_node
-    environment: 
-      - HUB_HOST=selenium-hub
-      - HUB_PORT=4444
-    #shm_size: '2gb'
-    depends_on: 
-      - selenium-hub
-  # the nodejs backend
+    command: npm run e2e -- --protractor-config=e2e/protractor-docker.conf.js --host 0.0.0.0
+ 
   nodejs:
     build:
       context: ./backend

@@ -1,10 +1,10 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, protractor } from 'protractor';
 
 export class AppPage {
 
   // navigates to main page
   navigateTo() {
-    return browser.get('/');
+    return browser.get('http://e2e:4200');
   }
 
   getHeaderText() {
