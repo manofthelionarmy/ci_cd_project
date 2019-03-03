@@ -8,7 +8,7 @@ services:
       dockerfile: sample.Dockerfile
       target: test
     image: angular:test
-    container_name: angular_test
+    container_name: angular
     ports: 
       - "4200:4200"
     depends_on: 

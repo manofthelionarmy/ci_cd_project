@@ -24,13 +24,13 @@ services:
     #  - /dev/shm:/dev/shm
     depends_on:
       - selenium-hub
-  e2e:
+  angular:
     build:
       context: ./frontend
       dockerfile: sample.Dockerfile
       target: development
     image: angular:dev
-    container_name: e2e
+    container_name: angular
     ports:
       - "4200:4200"
     privileged: true 

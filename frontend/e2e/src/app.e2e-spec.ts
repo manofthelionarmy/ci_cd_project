@@ -8,7 +8,7 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display navbar with title',  async () => {
+  it('should display navbar with title',  () => {
     page.navigateTo().then(() => {
       console.log('Successfully connected to the page');
     });
