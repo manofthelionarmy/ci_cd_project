@@ -20,8 +20,8 @@ services:
       - "5555:5555"
     privileged: true
     shm_size: '2g'
-    volumes: 
-      - /dev/shm:/dev/shm
+    #volumes: 
+    #  - /dev/shm:/dev/shm
     depends_on:
       - selenium-hub
   e2e:
