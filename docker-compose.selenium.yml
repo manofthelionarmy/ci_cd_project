@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   selenium-hub:
-    image: selenium/hub:3.141.59
+    image: selenium/hub:3.141.59-iron
     container_name: selenium-hub
     environment: 
       - GRID_TIMEOUT=10000
@@ -11,7 +11,7 @@ services:
     privileged: true
   
   chrome_node:
-    image: selenium/node-chrome:3.141.59
+    image: selenium/node-chrome:3.141.59-iron
     container_name: chrome_node
     environment:
       - HUB_PORT_4444_TCP_ADDR=selenium-hub
