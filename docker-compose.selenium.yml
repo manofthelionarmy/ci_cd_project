@@ -19,6 +19,7 @@ services:
     ports:
       - "5555:5555"
     privileged: true
+    shm_size: '2g'
     volumes: 
       - /dev/shm:/dev/shm
     depends_on:
@@ -30,7 +31,6 @@ services:
       target: development
     image: angular:dev
     container_name: e2e
-    # network_mode: "host"
     ports:
       - "4200:4200"
     privileged: true 
