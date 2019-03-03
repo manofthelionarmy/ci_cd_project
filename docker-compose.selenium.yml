@@ -8,7 +8,7 @@ services:
       - GRID_TIMEOUT=10000
     ports: 
       - "4444:4444"
-    privileged: true
+    #privileged: true
   
   chrome_node:
     image: selenium/node-chrome:3.141.59-iron
@@ -18,7 +18,7 @@ services:
       - HUB_PORT_4444_TCP_PORT=4444
     ports:
       - "5555:5555"
-    privileged: true
+    #privileged: true
     volumes: 
       - /dev/shm:/dev/shm
     depends_on:
@@ -32,7 +32,7 @@ services:
     container_name: e2e
     ports:
       - "4200:4200"
-    privileged: true 
+    #privileged: true 
     command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --host 0.0.0.0 --webdriver-update=false
     depends_on: 
         - chrome_node
