@@ -19,21 +19,20 @@ services:
     ports:
       - "5555:5555"
     privileged: true
-    shm_size: '2g'
-    #volumes: 
-    #  - /dev/shm:/dev/shm
+    volumes: 
+      - /dev/shm:/dev/shm
     depends_on:
       - selenium-hub
-  angular:
+  e2e:
     build:
       context: ./frontend
       dockerfile: sample.Dockerfile
       target: development
     image: angular:dev
-    container_name: angular
+    container_name: e2e
     ports:
       - "4200:4200"
     privileged: true 
-    command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --host 0.0.0.0
+    command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --host 0.0.0.0 --webdriver-update=false
     depends_on: 
         - chrome_node

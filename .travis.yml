@@ -74,12 +74,11 @@ jobs:
         - chmod +x docker-compose
         - sudo mv docker-compose /usr/local/bin
       before_script: 
-        - docker-compose -f docker-compose.test.yml build
+        - docker-compose -f docker-compose.selenium.yml build
       script:
-        - docker-compose -f docker-compose.test.yml run --name angular -p 4200:4200 angular
         - docker-compose -f docker-compose.selenium.yml up -d chrome_node
         - docker container ls
-        - docker-compose -f docker-compose.selenium.yml run --name angular -p 4200:4200 angular
+        - docker-compose -f docker-compose.selenium.yml run --name e2e -p 4200:4200 e2e
       after_script:
         - docker-compose -f docker-compose.selenium.yml down
     - stage: deploy

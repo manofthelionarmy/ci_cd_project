@@ -13,13 +13,13 @@ config.directConnect = false;
 
 
 // have it connect to the angular app
-config.baseUrl = "http://angular:4200";
+config.baseUrl = "http://e2e:4200";
 
 // Protractor getting the page-timeout
-config.getPageTimeout = 180000;
+config.getPageTimeout = 30000;
 
 // Selenium Webdriver timeout
-config.allScriptsTimeout = 180000;
+config.allScriptsTimeout = 30000;
 
 // Jasmine test script timeout
 config.jasmineNodeOpts.defaultTimeoutInterval = 30000;
@@ -33,6 +33,7 @@ config.capabilities = {
   chromeOptions: {
     args: ['headless', 'disable-gpu', 'no-sandbox'],
   },
+  // seleniumAddress: 'http://localhost:4444/wd/hub'
 };
 
 
