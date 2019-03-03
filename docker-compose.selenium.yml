@@ -19,9 +19,8 @@ services:
     ports:
       - "5555:5555"
     privileged: true
-    #volumes: 
-    #- /dev/shm:/dev/shm
-    shm_size: "2gb"
+    volumes: 
+      - /dev/shm:/dev/shm
     depends_on:
       - selenium-hub
   e2e:
