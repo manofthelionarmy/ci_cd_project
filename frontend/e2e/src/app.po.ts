@@ -1,13 +1,13 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, protractor } from 'protractor';
 
 export class AppPage {
 
   // navigates to main page
   navigateTo() {
-    return browser.get('/');
+    return browser.get('http://e2e:4200');
   }
 
-  getTitleText() {
-    return element(by.css('app-root h1')).getText();
+  getHeaderText() {
+    return element(by.css('app-header nav')).getText();
   }
 }

@@ -1,21 +1,20 @@
-
-# Nice option to have in the future: https://stackoverflow.com/questions/36249744/interactive-shell-using-docker-compose
 version: "3.4"
 
-services: 
+services:
+  # set up angular app
   angular:
-    build:
+    build: 
       context: ./frontend
       dockerfile: sample.Dockerfile
-      target: development
-    image: angular:dev
+      target: test
+    image: angular:test
     container_name: angular
-    #stdin_open: true
-    #tty: true
     ports: 
       - "4200:4200"
     depends_on: 
-      - nodejs
+      - nodejs 
+    command: npm run e2e -- --protractor-config=e2e/protractor-docker.conf.js --host 0.0.0.0
+ 
   nodejs:
     build:
       context: ./backend
@@ -23,15 +22,14 @@ services:
       target: development
     image: nodejs:dev
     container_name: nodejs
-    #stdin_open: true
-    #tty: true
     ports: 
       - "3000:3000"
-    networks: 
+    networks:
       - backend
     depends_on: 
       - db
     restart: always
+  # the mongo database
   db:
     image: mongo
     container_name: db
@@ -39,7 +37,7 @@ services:
       - backend
     ports: 
       - "27017:27017"
-
+# the two networks
 networks: 
-  backend:
+  backend: 
     driver: bridge

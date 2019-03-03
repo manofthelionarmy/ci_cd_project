@@ -2,7 +2,7 @@ language: node_js
 
 node_js:
   - 8.11.1
-dist: trusty
+dist: xenial
 
 sudo: required
 
@@ -67,17 +67,20 @@ jobs:
       name: Angular E2E
       env:  
         - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
+        - DOCKER_COMPOSE_VERSION=1.20.1
       before_install: 
         - sudo rm /usr/local/bin/docker-compose
         - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
         - chmod +x docker-compose
         - sudo mv docker-compose /usr/local/bin
       before_script: 
-        - docker-compose build
+        - docker-compose -f docker-compose.selenium.yml build
       script:
-        - docker-compose run --name test -p 4200:4200 angular npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+        - docker-compose -f docker-compose.selenium.yml up -d chrome_node
+        - docker container ls
+        - docker-compose -f docker-compose.selenium.yml run --name e2e -p 4200:4200 e2e
       after_script:
-        - docker-compose down
+        - docker-compose -f docker-compose.selenium.yml down
     - stage: deploy
       env: CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
       before_install: 
