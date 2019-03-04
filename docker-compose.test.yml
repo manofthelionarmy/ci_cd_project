@@ -13,7 +13,7 @@ services:
       - "4200:4200"
     depends_on: 
       - nodejs 
-    command: npm run e2e -- --protractor-config=e2e/protractor-docker.conf.js --host 0.0.0.0
+    command: npm run e2e -- --protractor-config=e2e/protractor-docker.conf.js --host 0.0.0.0 --webdriver-update=false
  
   nodejs:
     build:

@@ -15,17 +15,17 @@ config.chromeDriver = "/usr/bin/chromedriver";
 
 config.allScriptsTimeout = 60000;
 
-config.getPageTimeout = 60000;
+config.getPageTimeout = 180000;
 
-config.jasmineNodeOpts.defaultTimeoutInterval = 60000;
+config.jasmineNodeOpts.defaultTimeoutInterval = 180000;
 
 // have it connect to the angular app
-// config.baseUrl = "http://angular:4200";
+config.baseUrl = "http://localhost:4200";
 
 config.capabilities = {
   browserName: 'chrome',
   chromeOptions: {
-    args: ['--headless', '--no-sandbox', '--disable-gpu']
+    args: ['headless', 'no-sandbox', 'disable-gpu']
   },
 
 };
