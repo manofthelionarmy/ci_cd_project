@@ -2,7 +2,7 @@ language: node_js
 
 node_js:
   - 8.11.1
-dist: xenial
+dist: trusty
 
 sudo: required
 
@@ -65,6 +65,12 @@ jobs:
         - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile .
     - stage: E2E Test
       name: Angular E2E
+      addons:
+        apt:
+          sources:
+            - google-chrome
+          packages:
+            - google-chrome-stable
       env:  
         - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
         - DOCKER_COMPOSE_VERSION=1.20.1
