@@ -11,7 +11,9 @@ services:
     privileged: true
   
   chrome_node:
-    image: selenium/node-chrome:3.141.59
+    image: selenium/node-chrome:3.141.
+    volumes: 
+      - /dev/shm:/dev/shm
     container_name: chrome_node
     environment:
       - HUB_PORT_4444_TCP_ADDR=selenium-hub
@@ -19,8 +21,6 @@ services:
     ports:
       - "5555:5555"
     privileged: true
-    volumes: 
-      - /dev/shm:/dev/shm
     depends_on:
       - selenium-hub
   e2e:
