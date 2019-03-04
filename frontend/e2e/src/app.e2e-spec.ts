@@ -14,7 +14,9 @@ describe('workspace-project App', () => {
       expect(page.getHeaderText()).toEqual('hobbies');
 
     });*/
-    browser.get('http://localhost:4200');
+    browser.get('http://localhost:4200').then(() => {
+      console.log('Successfully connected to the page');
+    });
 
     browser.driver.wait(() => {
       return browser.isElementPresent(by.css('app-header nav'));
