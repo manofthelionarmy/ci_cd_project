@@ -20,7 +20,7 @@ describe('workspace-project App', () => {
 
     browser.driver.wait(() => {
       return browser.isElementPresent(by.css('app-header nav'));
-    }, 5000);
+    }, 11000);
 
     expect(browser.isElementPresent(by.css('app-header nav'))).toBeTruthy();
 
