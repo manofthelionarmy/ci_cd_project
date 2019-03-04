@@ -78,7 +78,7 @@ jobs:
       script:
         #- docker-compose -f docker-compose.selenium.yml up -d chrome_node
         #- docker container ls
-        - docker-compose -f docker-compose.selenium.yml run --name angular -p 4200:4200 angular
+        - docker-compose -f docker-compose.test.yml run --name angular -p 4200:4200 angular
       after_script:
         - docker-compose -f docker-compose.selenium.yml down
     - stage: deploy
