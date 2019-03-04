@@ -11,6 +11,8 @@ services:
     container_name: angular
     ports: 
       - "4200:4200"
+    volumes: 
+      - /dev/shm:/dev/shm
     depends_on: 
       - nodejs 
     command: npm run e2e -- --protractor-config=e2e/protractor-docker.conf.js --host 0.0.0.0 --webdriver-update=false
