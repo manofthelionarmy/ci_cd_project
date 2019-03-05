@@ -22,7 +22,7 @@ config.getPageTimeout = 60000;
 config.allScriptsTimeout = 180000;
 
 // Jasmine test script timeout
-config.jasmineNodeOpts.defaultTimeoutInterval = 180000;
+config.jasmineNodeOpts.defaultTimeoutInterval = 360000;
 
 // config.rootElement = 'app-root';
 
