@@ -48,6 +48,7 @@ services:
       - "3000:3000"
     networks:
       - backend
+      - frontend
     depends_on: 
       - db
     restart: always
@@ -63,4 +64,5 @@ services:
 networks: 
   backend: 
     driver: bridge
-    
+  frontend:
+    driver: bridge

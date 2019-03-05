@@ -13,6 +13,8 @@ services:
     container_name: angular
     depends_on: 
       - nodejs
+    networks:
+      - frontend
   nodejs:
     build:
       context: ./backend
@@ -24,6 +26,7 @@ services:
       - "3000:3000"
     container_name: nodejs
     networks:
+      - frontend
       - backend
     depends_on: 
       - db
@@ -39,3 +42,6 @@ services:
 # For swarm production, backend has to be an overlay network, not bridge
 networks: 
   backend:
+    driver: bridge
+  frontend: 
+    driver: bridge

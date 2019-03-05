@@ -61,7 +61,7 @@ const start = (portSettings)  => {
             server.on("listening", onListening);
 
             // The call back resolves our server once it is listening on the port. 
-            server.listen(port, () => resolve(server));
+            server.listen(port, '0.0.0.0', () => resolve(server));
         } catch (error) {
             reject(error);
         }

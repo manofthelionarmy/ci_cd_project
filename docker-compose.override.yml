@@ -10,6 +10,8 @@ services:
       target: development
     image: angular:dev
     container_name: angular
+    networks: 
+      - frontend
     #stdin_open: true
     #tty: true
     ports: 
@@ -29,6 +31,7 @@ services:
       - "3000:3000"
     networks: 
       - backend
+      - frontend
     depends_on: 
       - db
     restart: always
@@ -42,4 +45,6 @@ services:
 
 networks: 
   backend:
+    driver: bridge
+  frontend:
     driver: bridge
