@@ -5,7 +5,7 @@ services:
   angular:
     build: 
       context: ./frontend
-      dockerfile: sample.Dockerfile
+      dockerfile: angular.Dockerfile
       target: test
     image: angular:test
     container_name: angular
@@ -17,13 +17,13 @@ services:
       - nodejs 
     command: npm run e2e -- --protractor-config=e2e/protractor-docker.conf.js --host 0.0.0.0 --webdriver-update=false
  
-  nodejs:
+  node:
     build:
       context: ./backend
       dockerfile: Dockerfile
       target: development
     image: nodejs:dev
-    container_name: nodejs
+    container_name: node
     ports: 
       - "3000:3000"
     networks:

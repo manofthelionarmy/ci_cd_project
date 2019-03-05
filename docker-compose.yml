@@ -4,7 +4,7 @@ services:
   angular:
     build: 
       context: ./frontend
-      dockerfile: sample.Dockerfile
+      dockerfile: angular.Dockerfile
       target: production
     # this tags the image
     image: angular:prod

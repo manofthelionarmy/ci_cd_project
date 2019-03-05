@@ -4,7 +4,7 @@
 ##    builder    ##
 ###################
 
-FROM  node:10-alpine AS builder
+FROM  node:10 AS builder
 RUN  mkdir -p /usr/src/frontend
 WORKDIR /usr/src/frontend
 COPY package.json /usr/src/frontend

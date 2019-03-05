@@ -6,7 +6,7 @@
 // Configured for docker development
 export const environment = {
   production: false,
-  url: 'http://nodejs:3000'
+  url: 'http://localhost:3000'
 };
 
 /*

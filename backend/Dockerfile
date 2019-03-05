@@ -13,7 +13,7 @@
 ##    builder    ##
 ###################
 
-FROM node:10-alpine as builder
+FROM node:10 as builder
 RUN mkdir -p /usr/src/backend
 COPY package.json /usr/src/backend
 WORKDIR /usr/src/backend
