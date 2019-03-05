@@ -35,11 +35,11 @@ describe('workspace-project App', () => {
 
   it('should fill in info', async() => {
 
-    browser.waitForAngularEnabled(true);
+    // browser.waitForAngularEnabled(true);
+
+    browser.waitForAngularEnabled(false);
 
     browser.get('http://e2e:4200');
-
-    // browser.waitForAngularEnabled(false);
 
     element(by.id('nameInput')).sendKeys('Armando Leon').then(() => {
       console.log('Succesfully filled in name');
@@ -58,11 +58,11 @@ describe('workspace-project App', () => {
     });
 
     // wait for http requests to finish
-    // browser.driver.sleep(30000);
+    browser.driver.sleep(30000);
 
     browser.wait(() => {
       return browser.isElementPresent(element(by.cssContainingText('app-list li', 'Armando Leon likes coding')));
-    });
+    }, 60000);
 
     expect(element(by.css('app-list li')).getText()).toEqual('Armando Leon likes coding');
 
