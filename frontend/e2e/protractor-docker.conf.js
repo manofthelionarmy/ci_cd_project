@@ -17,7 +17,7 @@ config.allScriptsTimeout = 180000;
 
 config.getPageTimeout = 180000;
 
-config.jasmineNodeOpts.defaultTimeoutInterval = 190000;
+config.jasmineNodeOpts.defaultTimeoutInterval = 3600000;
 
 // have it connect to the angular app
 config.baseUrl = "http://localhost:4200";
