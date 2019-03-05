@@ -48,7 +48,7 @@ describe('workspace-project App', () => {
     });
 
     // wait for http requests to finish
-    browser.driver.sleep(20000);
+    browser.driver.sleep(30000);
 
     browser.wait(() => {
       return browser.isElementPresent(element(by.cssContainingText('app-list li', 'Armando Leon likes coding')));
