@@ -39,7 +39,7 @@ describe('workspace-project App', () => {
 
     browser.get('http://e2e:4200');
 
-    browser.waitForAngularEnabled(false);
+    // browser.waitForAngularEnabled(false);
 
     element(by.id('nameInput')).sendKeys('Armando Leon').then(() => {
       console.log('Succesfully filled in name');
@@ -62,7 +62,7 @@ describe('workspace-project App', () => {
 
     browser.wait(() => {
       return browser.isElementPresent(element(by.cssContainingText('app-list li', 'Armando Leon likes coding')));
-    }, 30000);
+    }, 60000);
 
     expect(element(by.css('app-list li')).getText()).toEqual('Armando Leon likes coding');
 
