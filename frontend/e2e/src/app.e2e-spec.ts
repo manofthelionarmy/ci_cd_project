@@ -14,7 +14,12 @@ describe('workspace-project App', () => {
       expect(page.getHeaderText()).toEqual('hobbies');
 
     });*/
-    browser.get('http://localhost:4200').then(() => {
+
+    // browser.waitForAngularEnabled(false);
+
+    browser.waitForAngularEnabled(false);
+
+    browser.get('http://e2e:4200').then(() => {
       console.log('Successfully connected to the page');
     });
 
@@ -29,7 +34,12 @@ describe('workspace-project App', () => {
   });
 
   it('should fill in info', async() => {
-    browser.get('http://localhost:4200');
+
+    browser.waitForAngularEnabled(true);
+
+    browser.get('http://e2e:4200');
+
+    browser.waitForAngularEnabled(false);
 
     element(by.id('nameInput')).sendKeys('Armando Leon').then(() => {
       console.log('Succesfully filled in name');
