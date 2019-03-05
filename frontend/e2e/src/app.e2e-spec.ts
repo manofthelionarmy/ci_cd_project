@@ -62,9 +62,9 @@ describe('workspace-project App', () => {
 
     browser.wait(() => {
       return browser.isElementPresent(element(by.cssContainingText('app-list li', 'Armando Leon likes coding')));
-    }, 60000);
+    }, 90000);
 
     expect(element(by.css('app-list li')).getText()).toEqual('Armando Leon likes coding');
 
-  });
+  }, 360000);
 });
