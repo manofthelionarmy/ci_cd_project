@@ -28,7 +28,7 @@ describe('workspace-project App', () => {
 
   });
 
-  it('should fill in info', () => {
+  it('should fill in info', async() => {
     browser.get('http://localhost:4200');
 
     element(by.id('nameInput')).sendKeys('Armando Leon').then(() => {
