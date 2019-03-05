@@ -84,7 +84,7 @@ jobs:
       script:
         - docker-compose -f docker-compose.selenium.yml up -d chrome_node
         - docker container ls
-        - docker-compose -f docker-compose.test.yml up e2e
+        - docker-compose -f docker-compose.selenium.yml up e2e
       after_script:
         - docker-compose -f docker-compose.selenium.yml down
     - stage: deploy
