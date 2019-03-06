@@ -1,6 +1,18 @@
 version: '3.4'
 
 services: 
+  proxy: 
+    build: 
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: proxy
+    networks: 
+      - frontend
+    container_name: proxy
+    depends_on: 
+      - angular
+    ports: 
+      - "80:80"
   angular:
     build: 
       context: ./frontend
@@ -9,7 +21,7 @@ services:
     # this tags the image
     image: angular:prod
     ports: 
-      - "80:80"
+      - "4200:4200"
     container_name: angular
     depends_on: 
       - nodejs

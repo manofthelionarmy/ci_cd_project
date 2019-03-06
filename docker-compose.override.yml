@@ -3,6 +3,13 @@
 version: "3.4"
 
 services: 
+  proxy: 
+    build: 
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: proxy
+    ports: 
+      - "80:80"
   angular:
     build:
       context: ./frontend
@@ -12,12 +19,11 @@ services:
     container_name: angular
     networks: 
       - frontend
-    #stdin_open: true
-    #tty: true
     ports: 
       - "4200:4200"
     depends_on: 
       - nodejs
+      - proxy
   nodejs:
     build:
       context: ./backend
@@ -25,8 +31,8 @@ services:
       target: development
     image: nodejs:dev
     container_name: nodejs
-    #stdin_open: true
-    #tty: true
+    hostname: nodejs
+    domainname: nodejs
     ports: 
       - "3000:3000"
     networks: 

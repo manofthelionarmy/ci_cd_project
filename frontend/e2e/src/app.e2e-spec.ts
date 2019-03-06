@@ -2,30 +2,24 @@ import { AppPage } from './app.po';
 import {browser, by, element } from 'protractor';
 // Test bed
 describe('workspace-project App', () => {
-  let page: AppPage;
+  // let page: AppPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    // page = new AppPage();
+    // browser.waitForAngularEnabled(false);
+    // works with machine ip
+    // browser.get('http://192.168.99.101:80');
+    browser.get('');
   });
 
-  it('should display navbar with title',  async () => {
-    /*page.navigateTo().then(() => {
-      console.log('Successfully connected to the page');
-      expect(page.getHeaderText()).toEqual('hobbies');
+  it('should display navbar with title',  () => {
 
-    });*/
-
-    // browser.waitForAngularEnabled(false);
-
-    browser.waitForAngularEnabled(false);
-
-    browser.get('http://e2e:4200').then(() => {
-      console.log('Successfully connected to the page');
-    });
+    browser.sleep(500);
 
     browser.driver.wait(() => {
+      // browser.waitForAngularEnabled(false);
       return browser.isElementPresent(by.css('app-header nav'));
-    }, 11000);
+    }, 60000);
 
     expect(browser.isElementPresent(by.css('app-header nav'))).toBeTruthy();
 
@@ -33,13 +27,16 @@ describe('workspace-project App', () => {
 
   });
 
-  it('should fill in info', async() => {
+  it('should fill in info', () => {
 
-    // browser.waitForAngularEnabled(true);
+    //
 
     browser.waitForAngularEnabled(false);
 
-    browser.get('http://e2e:4200');
+    browser.sleep(500);
+    // browser.driver.get('http://e2e:80');
+
+    // browser.refresh();
 
     element(by.id('nameInput')).sendKeys('Armando Leon').then(() => {
       console.log('Succesfully filled in name');
@@ -55,16 +52,20 @@ describe('workspace-project App', () => {
 
     element(by.css('app-hobbies .btn')).click().then(() => {
       console.log('Successfully clicked the form button');
+    }).catch(() => {
+      console.log('Something went wrong while trying to click');
     });
 
     // wait for http requests to finish
-    browser.driver.sleep(30000);
+    // browser.driver.sleep(10000);
+    // browser.waitForAngularEnabled(true);
 
     browser.wait(() => {
+      browser.waitForAngularEnabled(false);
       return browser.isElementPresent(element(by.cssContainingText('app-list li', 'Armando Leon likes coding')));
-    }, 90000);
+    }, 60000);
 
     expect(element(by.css('app-list li')).getText()).toEqual('Armando Leon likes coding');
 
-  }, 360000);
+  });
 });

@@ -65,12 +65,6 @@ jobs:
         - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile .
     - stage: E2E Test
       name: Angular E2E
-      addons:
-        apt:
-          sources:
-            - google-chrome
-          packages:
-            - google-chrome-stable
       env:  
         - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
         - DOCKER_COMPOSE_VERSION=1.20.1
@@ -82,9 +76,9 @@ jobs:
       before_script: 
         - docker-compose -f docker-compose.selenium.yml build
       script:
-        - docker-compose -f docker-compose.selenium.yml up -d chrome_node
+        - docker-compose -f docker-compose.selenium.yml up -d chrome_node proxy
         - docker container ls
-        - docker-compose -f docker-compose.selenium.yml up e2e
+        - docker-compose -f docker-compose.selenium.yml up protractor
       after_script:
         - docker-compose -f docker-compose.selenium.yml down
     - stage: deploy

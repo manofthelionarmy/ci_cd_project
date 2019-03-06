@@ -13,7 +13,7 @@ config.directConnect = false;
 
 
 // have it connect to the angular app
-config.baseUrl = "http://e2e:4200";
+config.baseUrl = "http://localhost:80";
 
 // Protractor getting the page-timeout
 config.getPageTimeout = 60000;
