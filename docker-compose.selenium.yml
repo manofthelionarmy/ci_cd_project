@@ -9,6 +9,7 @@ services:
     ports: 
       - "4444:4444"
     privileged: true
+    #tty: true
   
   chrome_node:
     image: selenium/node-chrome:3.141.59
@@ -23,14 +24,19 @@ services:
     privileged: true
     depends_on:
       - selenium-hub
+    #tty: true
   proxy: 
     build: 
       context: ./proxy
       dockerfile: Dockerfile
     image: proxy
     container_name: proxy
+    # HOST:CONTAINER
     ports: 
-      - "80:80"
+      - "127.0.0.1:80:80"
+    #tty: true
+    depends_on: 
+      - angular
   angular:
     build:
       context: ./frontend
@@ -43,6 +49,7 @@ services:
     privileged: true 
     depends_on: 
         - nodejs
+    #tty: true
   nodejs:
     build:
       context: ./backend
@@ -55,12 +62,14 @@ services:
     depends_on: 
       - db
     restart: always
+    #tty: true
   # the mongo database
   db:
     image: mongo
     container_name: db
     ports: 
       - "27017:27017"
+    tty: true
   protractor:
     build:
       context: ./frontend
@@ -74,5 +83,6 @@ services:
     depends_on:
       - selenium-hub
       - chrome_node
+    #tty: true --> not neccesary
     command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --webdriver-update=false --dev-server-target= 
 
