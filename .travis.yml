@@ -2,7 +2,7 @@ language: node_js
 
 node_js:
   - 8.11.1
-dist: xenial
+dist: trusty
 
 sudo: required
 
@@ -76,9 +76,9 @@ jobs:
       before_script: 
         - docker-compose -f docker-compose.selenium.yml build
       script:
-        - docker-compose -f docker-compose.selenium.yml up -d chrome_node
+        - docker-compose -f docker-compose.selenium.yml up -d chrome_node proxy
         - docker container ls
-        - docker-compose -f docker-compose.selenium.yml run --name e2e -p 4200:4200 e2e
+        - docker-compose -f docker-compose.selenium.yml up protractor
       after_script:
         - docker-compose -f docker-compose.selenium.yml down
     - stage: deploy

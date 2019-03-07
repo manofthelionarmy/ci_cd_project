@@ -12,6 +12,8 @@ services:
   
   chrome_node:
     image: selenium/node-chrome:3.141.59
+    volumes: 
+      - /dev/shm:/dev/shm
     container_name: chrome_node
     environment:
       - HUB_PORT_4444_TCP_ADDR=selenium-hub
@@ -19,20 +21,58 @@ services:
     ports:
       - "5555:5555"
     privileged: true
-    volumes: 
-      - /dev/shm:/dev/shm
     depends_on:
       - selenium-hub
-  e2e:
+  proxy: 
+    build: 
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: proxy
+    container_name: proxy
+    ports: 
+      - "80:80"
+  angular:
     build:
       context: ./frontend
       dockerfile: sample.Dockerfile
-      target: development
-    image: angular:dev
-    container_name: e2e
+      target: production
+    image: angular:prod
+    container_name: angular
     ports:
       - "4200:4200"
     privileged: true 
-    command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --host 0.0.0.0 --webdriver-update=false
     depends_on: 
-        - chrome_node
+        - nodejs
+  nodejs:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    image: nodejs:dev
+    container_name: nodejs
+    ports: 
+      - "3000:3000"
+    depends_on: 
+      - db
+    restart: always
+  # the mongo database
+  db:
+    image: mongo
+    container_name: db
+    ports: 
+      - "27017:27017"
+  protractor:
+    build:
+      context: ./frontend
+      dockerfile: sample.Dockerfile
+      target: test
+    image: angular:test
+    container_name: protractor
+    ports: 
+      - "9876:9876"
+    privileged: true
+    depends_on:
+      - selenium-hub
+      - chrome_node
+    command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --webdriver-update=false --dev-server-target= 
+

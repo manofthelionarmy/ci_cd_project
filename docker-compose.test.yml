@@ -11,9 +11,13 @@ services:
     container_name: angular
     ports: 
       - "4200:4200"
+    volumes: 
+      - /dev/shm:/dev/shm
     depends_on: 
       - nodejs 
-    command: npm run e2e -- --protractor-config=e2e/protractor-docker.conf.js --host 0.0.0.0
+    networks: 
+      - frontend
+    command: npm run e2e -- --protractor-config=e2e/protractor-docker.conf.js --host 0.0.0.0 --webdriver-update=false
  
   nodejs:
     build:
@@ -26,6 +30,7 @@ services:
       - "3000:3000"
     networks:
       - backend
+      - frontend
     depends_on: 
       - db
     restart: always
@@ -37,7 +42,28 @@ services:
       - backend
     ports: 
       - "27017:27017"
+  protractor:
+    build:
+      context: ./frontend
+      dockerfile: sample.Dockerfile
+      target: test
+    image: angular:test
+    container_name: protractor
+    network_mode: host
+    privileged: true
+    networks: 
+      - grid
+      - frontend
+    depends_on:
+      - selenium-hub
+      - chrome_node
+      - e2e
+    command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --webdriver-update=false --dev-server-target= 
 # the two networks
 networks: 
   backend: 
+    driver: bridge
+  frontend:
+    driver: bridge
+  grid:
     driver: bridge
