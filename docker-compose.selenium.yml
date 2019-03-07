@@ -7,9 +7,9 @@ services:
     environment: 
       - GRID_TIMEOUT=10000
     ports: 
-      - "127.0.0.1:4444:4444"
+      - "4444:4444"
     privileged: true
-    tty: true
+    #tty: true
   
   chrome_node:
     image: selenium/node-chrome:3.141.59
@@ -24,7 +24,7 @@ services:
     privileged: true
     depends_on:
       - selenium-hub
-    tty: true
+    #tty: true
   proxy: 
     build: 
       context: ./proxy
@@ -34,7 +34,7 @@ services:
     # HOST:CONTAINER
     ports: 
       - "127.0.0.1:80:80"
-    tty: true
+    #tty: true
     depends_on: 
       - angular
   angular:
@@ -45,11 +45,11 @@ services:
     image: angular:prod
     container_name: angular
     ports:
-      - "127.0.0.01:4200:4200"
+      - "4200:4200"
     privileged: true 
     depends_on: 
         - nodejs
-    tty: true
+    #tty: true
   nodejs:
     build:
       context: ./backend
@@ -62,7 +62,7 @@ services:
     depends_on: 
       - db
     restart: always
-    tty: true
+    #tty: true
   # the mongo database
   db:
     image: mongo
@@ -78,11 +78,11 @@ services:
     image: angular:test
     container_name: protractor
     ports: 
-      - "127.0.0.1:9876:9876"
+      - "9876:9876"
     privileged: true
     depends_on:
       - selenium-hub
       - chrome_node
-    tty: true
+    #tty: true --> not neccesary
     command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --webdriver-update=false --dev-server-target= 
 
