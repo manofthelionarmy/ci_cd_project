@@ -49,8 +49,7 @@ services:
       target: test
     image: angular:test
     container_name: protractor
-    ports: 
-      - "9876:9876"
+    network_mode: host
     privileged: true
     networks: 
       - grid

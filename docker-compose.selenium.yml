@@ -8,8 +8,6 @@ services:
       - GRID_TIMEOUT=10000
     ports: 
       - "4444:4444"
-    networks: 
-      - grid
     privileged: true
   
   chrome_node:
@@ -20,8 +18,6 @@ services:
     environment:
       - HUB_PORT_4444_TCP_ADDR=selenium-hub
       - HUB_PORT_4444_TCP_PORT=4444
-    networks: 
-      - grid
     ports:
       - "5555:5555"
     privileged: true
@@ -32,13 +28,9 @@ services:
       context: ./proxy
       dockerfile: Dockerfile
     image: proxy
-    networks: 
-      - frontend
     container_name: proxy
-    depends_on: 
-      - angular
     ports: 
-      - "127.0.0.1:80:80"
+      - "80:80"
   angular:
     build:
       context: ./frontend
@@ -48,8 +40,6 @@ services:
     container_name: angular
     ports:
       - "4200:4200"
-    networks: 
-      - frontend
     privileged: true 
     depends_on: 
         - nodejs
@@ -62,9 +52,6 @@ services:
     container_name: nodejs
     ports: 
       - "3000:3000"
-    networks:
-      - backend
-      - frontend
     depends_on: 
       - db
     restart: always
@@ -72,8 +59,6 @@ services:
   db:
     image: mongo
     container_name: db
-    networks: 
-      - backend
     ports: 
       - "27017:27017"
   protractor:
@@ -83,22 +68,11 @@ services:
       target: test
     image: angular:test
     container_name: protractor
-    networks: 
-      - frontend
-      - grid
     ports: 
       - "9876:9876"
     privileged: true
     depends_on:
       - selenium-hub
       - chrome_node
-      - proxy
     command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --webdriver-update=false --dev-server-target= 
-# the two networks
-networks: 
-  backend: 
-    driver: bridge
-  frontend:
-    driver: bridge
-  grid: 
-    driver: bridge
+

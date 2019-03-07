@@ -9,7 +9,7 @@ describe('workspace-project App', () => {
     // browser.waitForAngularEnabled(false);
     // works with machine ip
     // browser.get('http://192.168.99.101:80');
-    browser.get('');
+    browser.get('/');
   });
 
   it('should display navbar with title',  () => {
@@ -31,7 +31,7 @@ describe('workspace-project App', () => {
 
     //
 
-    browser.waitForAngularEnabled(false);
+    // browser.waitForAngularEnabled(false);
 
     browser.sleep(500);
     // browser.driver.get('http://e2e:80');
