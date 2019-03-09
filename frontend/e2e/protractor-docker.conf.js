@@ -13,14 +13,14 @@ let config = require('./protractor.conf').config;
 // https://hub.docker.com/r/weboaks/node-karma-protractor-chrome/
 config.chromeDriver = "/usr/bin/chromedriver";
 
-config.allScriptsTimeout = 180000;
+config.allScriptsTimeout = 60000;
 
-config.getPageTimeout = 180000;
+config.getPageTimeout = 60000;
 
-config.jasmineNodeOpts.defaultTimeoutInterval = 3600000;
+config.jasmineNodeOpts.defaultTimeoutInterval = 60000;
 
 // have it connect to the angular app
-config.baseUrl = "http://localhost:4200";
+config.baseUrl = "http://angular:4200";
 
 config.capabilities = {
   browserName: 'chrome',

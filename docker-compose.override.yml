@@ -1,5 +1,9 @@
 
 # Nice option to have in the future: https://stackoverflow.com/questions/36249744/interactive-shell-using-docker-compose
+###################
+###  Local Dev  ###
+###################
+
 version: "3.4"
 
 services: 
@@ -10,6 +14,11 @@ services:
       target: development
     image: angular:dev
     container_name: angular
+    volumes: 
+      - "/usr/src/frontned/node_modules"
+      - "./frontend:/usr/src/frontend"
+    environment: 
+      - CHOKIDAR_USEPOLLING=true
     networks: 
       - frontend
     ports: 
@@ -23,6 +32,8 @@ services:
       target: development
     image: nodejs:dev
     container_name: nodejs
+    volumes: 
+      - "./backend:/usr/src/backend"
     ports: 
       - "3000:3000"
     networks: 
