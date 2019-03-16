@@ -1,0 +1,58 @@
+######################
+## MEAN w/ Traefik  ##
+######################
+
+version: '3.4'
+
+services: 
+
+  angular:
+    build: 
+      context: ./frontend
+      dockerfile: sample.Dockerfile
+      target: production
+    image: angular:prod
+    container_name: angular
+    depends_on: 
+      - nodejs
+    labels: 
+      #- "traefik.frontend.rule=PathPrefix:/"
+      # seems like we can't do the same port 80.... why? The nginx port is exposed on 80
+      #- "traefik.frontend.passHostHeader"
+      #- "traefik.port=80"
+      # It seems that the Host: is not working
+      # I did a curl -H Host:angular.mando http://192.168.99.101 and it resolved with a 200 status
+      # But in the browser, we get a 404. So that means it's not resolving in the browser
+      # However, if we do this, it resolves (it forwards, based on the path, to the angular application served on nginx)
+      #- "traefik.frontend.rule=Host:192.168.99.101" 
+      # It seems that we cannot resolve to the host (cannot be resolved in the browser...)
+      # I passed the Docker Machine IP and it works. I guess I was right. It is the same thing as things not resovling in 
+      # the browser, and they will only resolve in the internal docker network
+      # If do have a domain one day, the formula to do so: traefik.frontend.rul=Host:[enter container_name / service name].domain
+      - "traefik.frontend.rule=PathPrefix:/"
+      - "traefik.backend=angular"
+      # has to match the listening port on the container (in default.conf, it is listening on port 80)
+      - "traefik.port=80"
+    
+
+  nodejs:
+    build: 
+      context: ./backend
+      dockerfile: ./backend/Dockerfile
+      target: production
+    image: nodejs:prod
+    container_name: nodjes
+    labels: 
+      # Via Angular UI served on Nginx, we need to forward based on the path to the the nodejs container
+      - "traefik.frontend.rule=PathPrefix:/api/v1/hobbies"
+      - "traefik.backend=nodejs"
+      # Has to match the listening port on the container
+      - "traefik.port=3000"
+
+  db:
+    image: mongo
+    container_name: db
+    ports: 
+      - "27017:27017"
+
+    

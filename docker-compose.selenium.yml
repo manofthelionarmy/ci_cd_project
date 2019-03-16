@@ -50,7 +50,6 @@ services:
     privileged: true 
     depends_on: 
         - nodejs
-    #tty: true
   nodejs:
     build:
       context: ./backend
@@ -63,14 +62,12 @@ services:
     depends_on: 
       - db
     restart: always
-    #tty: true
   # the mongo database
   db:
     image: mongo
     container_name: db
     ports: 
       - "27017:27017"
-    tty: true
   protractor:
     build:
       context: ./frontend
@@ -84,6 +81,5 @@ services:
     depends_on:
       - selenium-hub
       - chrome_node
-    #tty: true --> not neccesary
     command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --webdriver-update=false --dev-server-target= 
 

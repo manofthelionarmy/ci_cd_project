@@ -1,0 +1,33 @@
+# Example provided at https://hub.docker.com/_/traefik
+defaultEntryPoints = ["http"]
+
+[entryPoints]
+    [entryPoints.http]
+    address = ":80"
+    # by default, the entrypoint is traefik
+    [entryPoints.dashboard]
+    address = ":8080"
+
+#[frontends]
+#    [frontends.angular]
+#    backend = "api"
+#        [frontends.angular.routes.nodejs]
+#        rule = "PathPrefix:/api"
+
+#[backends]
+#    [backends.api]
+#        [backends.api.servers.server1]
+#        url = "http://nodejs:3000"
+
+[api]
+    entryPoint = "dashboard"
+    #debug = false
+
+# https://docs.traefik.io/v1.6/configuration/backends/docker/
+[docker]
+    endpoint = "unix:///var/run/docker.sock"
+    domain = "docker.localhost"
+    exposedByDefault = true
+    watch = true
+    #network = "web"
+

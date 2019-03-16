@@ -1,0 +1,36 @@
+###################
+##    Traefik    ##
+###################
+
+version: '3.4'
+
+services: 
+  reverse-proxy:
+    image: traefik:alpine
+    #don't forget to have the docker part, it lets it know that it is the docker provider
+    #command: --api --docker
+    ports: 
+      - "80:80"
+      - "8080:8080"
+    volumes: #traefik.toml cannot be in a folder with a similar name
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./reverse-proxy/traefik.toml:/etc/traefik/traefik.toml"
+    container_name: proxy
+    #networks: 
+     # - web
+  
+ # ...
+  #whoami:
+   # image: containous/whoami # A container that exposes an API to show its IP address
+    #container_name: whoami
+    #labels:
+     # - "traefik.frontend.rule=Host:whoami.docker.localhost"
+      # need to enable the container to be detected by traefik: https://docs.traefik.io/v1.6/configuration/backends/docker/
+      #- traefik.enable=true
+    #networks: 
+      #- web
+#networks: 
+  #web:
+    #driver: bridge
+
+
