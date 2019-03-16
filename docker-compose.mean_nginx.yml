@@ -1,0 +1,44 @@
+version: '3.4'
+
+services: 
+  proxy: 
+    build: 
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: proxy
+    container_name: proxy
+    # HOST:CONTAINER
+    ports: 
+      - "80:80"
+    depends_on: 
+      - angular
+  angular:
+    build:
+      context: ./frontend
+      dockerfile: sample.Dockerfile
+      target: production
+    image: angular:prod
+    container_name: angular
+    ports:
+      - "4200:4200"
+    privileged: true 
+    depends_on: 
+        - nodejs
+  nodejs:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    image: nodejs:dev
+    container_name: nodejs
+    ports: 
+      - "3000:3000"
+    depends_on: 
+      - db
+    restart: always
+  # the mongo database
+  db:
+    image: mongo
+    container_name: db
+    ports: 
+      - "27017:27017"

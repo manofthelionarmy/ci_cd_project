@@ -2,6 +2,8 @@
 ###   Production   ###
 ######################
 
+# Will update this to use traefik in the future
+# This will be used for swarm
 version: '3.4'
 
 services: 
@@ -38,8 +40,8 @@ services:
       dockerfile: Dockerfile
     # this tags the image
     image: nodejs:prod
-    ports: 
-      - "3000:3000"
+    #ports: 
+    #  - "3000:3000"
     container_name: nodejs
     networks:
       - frontend
@@ -50,8 +52,8 @@ services:
   db:
     image: mongo
     container_name: db
-    ports:
-      - "27017:27017"
+    #ports:
+    #  - "27017:27017"
     networks: 
       - backend
 # I created the backend network on my local-machine
