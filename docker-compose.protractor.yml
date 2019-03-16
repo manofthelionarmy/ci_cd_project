@@ -1,0 +1,18 @@
+version: "3.4"
+
+services: 
+  protractor:
+    build:
+      context: ./frontend
+      dockerfile: sample.Dockerfile
+      target: test
+    image: angular:test
+    container_name: protractor
+    ports: 
+      - "9876:9876"
+    privileged: true
+    #depends_on:
+    #  - selenium-hub
+    #  - chrome_node
+    command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js --webdriver-update=false --dev-server-target= 
+

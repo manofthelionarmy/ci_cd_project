@@ -24,13 +24,15 @@ services:
       # I did a curl -H Host:angular.mando http://192.168.99.101 and it resolved with a 200 status
       # But in the browser, we get a 404. So that means it's not resolving in the browser
       # However, if we do this, it resolves (it forwards, based on the path, to the angular application served on nginx)
-      #- "traefik.frontend.rule=Host:192.168.99.101" 
+      #- "traefik.frontend.rule=Host:192.168.99.101" works because the Host is the Docker-Machine IP 
       # It seems that we cannot resolve to the host (cannot be resolved in the browser...)
       # I passed the Docker Machine IP and it works. I guess I was right. It is the same thing as things not resovling in 
       # the browser, and they will only resolve in the internal docker network
       # If do have a domain one day, the formula to do so: traefik.frontend.rul=Host:[enter container_name / service name].domain
-      - "traefik.frontend.rule=PathPrefix:/"
-      - "traefik.backend=angular"
+      - "traefik.frontend.passHostHeader=true"
+      - "traefik.frontend.rule=PathPrefixStrip:/,/api" #favicon.ico not resolving ... traced it to nginx issue
+      #- "traefik.frontend.rule=Host:angular.ci_cd_project.docker.localhost"
+      - "traefik.backend=nginx"
       # has to match the listening port on the container (in default.conf, it is listening on port 80)
       - "traefik.port=80"
     
@@ -38,7 +40,7 @@ services:
   nodejs:
     build: 
       context: ./backend
-      dockerfile: ./backend/Dockerfile
+      dockerfile: Dockerfile
       target: production
     image: nodejs:prod
     container_name: nodjes

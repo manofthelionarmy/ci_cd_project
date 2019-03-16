@@ -1,7 +1,9 @@
 ######################
-###  MEAN w/Nginx  ###
+###   Production   ###
 ######################
 
+# Will update this to use traefik in the future
+# This will be used for swarm
 version: '3.4'
 
 services: 
@@ -24,8 +26,8 @@ services:
       target: production
     # this tags the image
     image: angular:prod
-    #ports: 
-    #  - "4200:4200"
+    ports: 
+      - "4200:4200"
     container_name: angular
     depends_on: 
       - nodejs

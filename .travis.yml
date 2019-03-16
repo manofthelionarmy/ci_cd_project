@@ -64,7 +64,7 @@ jobs:
         - docker container run --name test -p 9876:9876 angular:test
         - docker image build -t manofthelionarmy/angular:prod -f sample.Dockerfile .
     - stage: E2E Test
-      name: Angular E2E
+      name: Angular E2E w/Nginx
       env:  
         - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
         - DOCKER_COMPOSE_VERSION=1.20.1
@@ -75,12 +75,39 @@ jobs:
         - sudo mv docker-compose /usr/local/bin
       before_script: 
         - docker-compose -f docker-compose.selenium.yml build
+        - docker-compose -f docker-compose.protractor.yml build
+        - docker-compose -f docker-compose.mean_nginx.yml build
       script:
-        - docker-compose -f docker-compose.selenium.yml up -d chrome_node proxy
+        - docker-compose -f docker-compose.selenium.yml up -d
+        - docker-compose -f docker-compose.mean_nginx.yml up -d
         - docker container ls
-        - docker-compose -f docker-compose.selenium.yml up protractor
+        - docker-compose -f docker-compose.protractor.yml up
       after_script:
-        - docker-compose -f docker-compose.selenium.yml down
+        - docker-compose down --remove-orphans
+    - stage: E2E Test
+      name: Angular E2E w/Traefik
+      env:  
+        - CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
+        - DOCKER_COMPOSE_VERSION=1.20.1
+      before_install: 
+        - sudo rm /usr/local/bin/docker-compose
+        - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+        - chmod +x docker-compose
+        - sudo mv docker-compose /usr/local/bin
+      before_script: 
+        - docker-compose -f docker-compose.selenium.yml build
+        - docker-compose -f docker-compose.traefik.yml build
+        - docker-compose -f docker-compose.protractor.yml build
+        - docker-compose -f docker-compose.mean_traefik.yml build
+      script:
+        - docker-compose -f docker-compose.selenium.yml up -d
+        - docker-compose -f docker-compose.traefik.yml up -d
+        - docker-compose -f docker-compose.mean_traefik.yml up -d
+        - docker container ls
+        - docker-compose -f docker-compose.protractor.yml up protractor
+      after_script:
+        - docker-compose down --remove-orphans
+
     - stage: deploy
       env: CI_CD_PROJ=${HOME}/build/manofthelionarmy/ci_cd_project
       before_install: 
