@@ -6,6 +6,16 @@ version: '3.4'
 
 services: 
 
+  reverse-proxy:
+    image: traefik:alpine
+    ports: 
+      - "80:80"
+      - "8080:8080"
+    volumes: #traefik.toml cannot be in a folder with a similar name
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./reverse-proxy/traefik.toml:/etc/traefik/traefik.toml"
+    container_name: proxy #chose this 
+
   angular:
     build: 
       context: ./frontend
@@ -30,11 +40,13 @@ services:
       # the browser, and they will only resolve in the internal docker network
       # If do have a domain one day, the formula to do so: traefik.frontend.rul=Host:[enter container_name / service name].domain
       - "traefik.frontend.passHostHeader=true"
-      - "traefik.frontend.rule=PathPrefixStrip:/,/api" #favicon.ico not resolving ... traced it to nginx issue
+      - "traefik.frontend.rule=PathPrefixStrip:/" #favicon.ico not resolving ... traced it to nginx issue
       #- "traefik.frontend.rule=Host:angular.ci_cd_project.docker.localhost"
       - "traefik.backend=nginx"
       # has to match the listening port on the container (in default.conf, it is listening on port 80)
       - "traefik.port=80"
+    ports: 
+      - "4200:4200"
     
 
   nodejs:
@@ -50,6 +62,8 @@ services:
       - "traefik.backend=nodejs"
       # Has to match the listening port on the container
       - "traefik.port=3000"
+    ports: 
+      - "3000:3000"
 
   db:
     image: mongo

@@ -96,12 +96,10 @@ jobs:
         - sudo mv docker-compose /usr/local/bin
       before_script: 
         - docker-compose -f docker-compose.selenium.yml build
-        - docker-compose -f docker-compose.traefik.yml build
         - docker-compose -f docker-compose.protractor.yml build
         - docker-compose -f docker-compose.mean_traefik.yml build
       script:
         - docker-compose -f docker-compose.selenium.yml up -d
-        - docker-compose -f docker-compose.traefik.yml up -d
         - docker-compose -f docker-compose.mean_traefik.yml up -d
         - docker container ls
         - docker-compose -f docker-compose.protractor.yml up protractor
