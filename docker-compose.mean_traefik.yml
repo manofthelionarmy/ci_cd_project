@@ -40,7 +40,7 @@ services:
       # the browser, and they will only resolve in the internal docker network
       # If do have a domain one day, the formula to do so: traefik.frontend.rul=Host:[enter container_name / service name].domain
       - "traefik.frontend.passHostHeader=true"
-      - "traefik.frontend.rule=PathPrefix:/" #favicon.ico not resolving ... traced it to nginx issue
+      - "traefik.frontend.rule=PathPrefixStrip:/" #favicon.ico not resolving ... traced it to nginx issue
       #- "traefik.frontend.rule=Host:angular.ci_cd_project.docker.localhost"
       - "traefik.backend=nginx"
       # has to match the listening port on the container (in default.conf, it is listening on port 80)

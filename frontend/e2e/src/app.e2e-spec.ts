@@ -61,7 +61,7 @@ describe('workspace-project App', () => {
     // browser.waitForAngularEnabled(true);
 
     browser.wait(() => {
-      browser.waitForAngularEnabled(false);
+      // browser.waitForAngularEnabled(false);
       return browser.isElementPresent(element(by.cssContainingText('app-list li', 'Armando Leon likes coding')));
     }, 60000);
 
